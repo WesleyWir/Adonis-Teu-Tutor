@@ -17,6 +17,9 @@ import Logger from '@ioc:Adonis/Core/Logger'
 import HttpExceptionHandler from '@ioc:Adonis/Core/HttpExceptionHandler'
 
 export default class ExceptionHandler extends HttpExceptionHandler {
+  protected ignoreCodes = ['E_ROUTE_NOT_FOUND']
+  protected ignoreStatuses = [404, 422, 403, 401]
+  
   constructor () {
     super(Logger)
   }

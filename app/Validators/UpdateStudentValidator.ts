@@ -10,6 +10,7 @@ export default class UpdateStudentValidator extends BaseValidator {
   public schema = schema.create({
     name: schema.string.optional(),
     birthdate: schema.date.optional(),
-    avatar: schema.string.optional()
+    avatar: schema.string.optional(),
+    password: schema.string.optional(),
   })
 }

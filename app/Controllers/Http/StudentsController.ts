@@ -1,72 +1,75 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import InternalErrorException from 'App/Exceptions/InternalErrorException';
 import Student from 'App/Models/Student';
 import CreateStudent from 'App/Validators/CreateStudentValidator';
 import UpdateStudent from 'App/Validators/UpdateStudentValidator';
+import { types } from '@ioc:Adonis/Core/Helpers';
+import Hash from '@ioc:Adonis/Core/Hash'
+import AuthorizationException from 'App/Exceptions/AuthorizationException';
+import NotFoundException from 'App/Exceptions/NotFoundException';
+
 export default class StudentsController {
   public async index() {
-    try{
-      return await Student.all();
-    }catch(err){
-      console.error(err);
-      throw new InternalErrorException(err, 500);
-    }
+    return await Student.all();
   }
 
-  public async create({}: HttpContextContract) {
+  public async create({ }: HttpContextContract) {
     // Not need be implemented.
   }
 
-  public async store({request}: HttpContextContract) {
+  public async store({ request }: HttpContextContract) {
     const studentPayload = await request.validate(CreateStudent);
-    try{
-      return Student.create(studentPayload);
-    }catch(err){
-      console.error(err);
-      throw new InternalErrorException(err, 500);
-    }  
+    return Student.create(studentPayload);
   }
 
-  public async show({request}: HttpContextContract) {
-    try{
-      const id = request.param('id');
-      return await Student.findOrFail(id);
-    }catch(err){
-      console.error(err);
-      throw new InternalErrorException(err, 500);
-    }  
-  }
+  public async show({ request }: HttpContextContract) {
+    const id = request.param('id');
+    const student = Student.find(id);
 
-  public async edit({request}: HttpContextContract) {
-    try{
-      const id = request.param('id');
-      return await Student.query().select('id', 'name', 'birthdate', 'avatar').where('id', id).first();
-    }catch(err){
-      console.error(err);
-      throw new InternalErrorException(err, 500);
-    }  
-  }
-
-  public async update({request}: HttpContextContract) {
-    const studentPayload = await request.validate(UpdateStudent);
-    try{
-      const id = request.param('id');
-      const student = await Student.findOrFail(id);
-      return await student.merge(studentPayload).save()
-    }catch(err){
-      console.error(err);
-      throw new InternalErrorException(err, 500);
-    }  
-  }
-
-  public async destroy({request}: HttpContextContract) {
-    try{
-      const id = request.param('id');
-      const student = await Student.findOrFail(id);
-      return student.delete();
-    }catch(err){
-      console.error(err);
-      throw new InternalErrorException(err, 500);
+    if(!student) {
+      throw new NotFoundException('Student not found');
     }
+
+    return await student;
+  }
+
+  public async edit({ request }: HttpContextContract) {
+    const id = request.param('id');
+    return await Student.query().select('id', 'name', 'birthdate', 'avatar').where('id', id).first();
+  }
+
+  public async update({ request }: HttpContextContract) {
+    const studentPayload = await request.validate(UpdateStudent);
+    const id = request.param('id');
+    const student = await Student.find(id);
+
+    if(!student) {
+      throw new NotFoundException('Student not found');
+    }
+
+    if (studentPayload.password) {
+      const oldPassword = request.only(["old_password"]);
+
+      if ((!oldPassword) || !(types.isString(oldPassword))) {
+        throw new AuthorizationException("Old password doesn't match");
+      }
+
+      const authenticated = await Hash.verify(student.password, oldPassword);
+      if (!authenticated) {
+        throw new AuthorizationException("Old password doesn't match");
+      }
+    }
+
+    return await student.merge(studentPayload).save()
+  }
+
+  public async destroy({ request }: HttpContextContract) {
+    const id = request.param('id');
+    const student = await Student.find(id);
+
+    if(!student) {
+      throw new NotFoundException('Student not found');
+    }
+
+    return student.delete();
   }
 }
