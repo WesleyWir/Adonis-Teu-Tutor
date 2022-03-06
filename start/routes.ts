@@ -31,6 +31,6 @@ Route.resource('students', 'StudentsController').except(['create'])
                                                 // })
 
 Route.group(() => {
-  Route.post('/forgot', 'PasswordsController.forgotPassword');
-  Route.post('/reset', 'PasswordsController.resetPassword');
+  Route.post('/forgot', 'StudentsPasswordController.forgotPassword');
+  Route.post('/reset', 'StudentsPasswordController.resetPassword');
 }).prefix('/students')

@@ -2,7 +2,7 @@ import { Exception } from '@adonisjs/core/build/standalone'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class NotFoundException extends Exception {
-    public code: string = 'E_NOTFOUND_EXCEPTION';
+    public code: string = 'E_ROW_NOT_FOUND';
 
     constructor (message: string) {
         super(message, 404)

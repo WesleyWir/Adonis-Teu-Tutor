@@ -7,7 +7,7 @@ export default class ResetStudentsPasswordTokens extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary()
       table.string('token', 255).notNullable().unique()
-      table.string('student_id').unsigned().references('id').inTable('students').notNullable()
+      table.string('student_id').references('id').inTable('students').notNullable()
       table.timestamp('created_at', { useTz: true })
       table.timestamp('updated_at', { useTz: true })
     })
