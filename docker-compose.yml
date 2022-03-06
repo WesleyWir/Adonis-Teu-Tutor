@@ -1,0 +1,59 @@
+version: '3'
+services:
+
+  #Node Container
+  node:
+      image: node:lts
+      container_name: teu-tutor-node
+      tty: true
+      user: "node:node"
+      working_dir: /app
+      volumes:
+        - ./:/app
+      network_mode: "host"
+
+    #MySQL Container
+  database:
+    image: mariadb:10.3-bionic
+    container_name: 'teu-tutor-database'
+    tty: true
+    ports:
+      - "3306:3306"
+    expose:
+      - '3306'
+    environment:
+      MYSQL_DATABASE: teu_tutor
+      MYSQL_ROOT_PASSWORD: secret
+    working_dir: /media
+    volumes:
+      - dbdata:/var/lib/mysql/
+      - ./.docker/mysql/sqls:/media
+    networks:
+      - app-network
+
+  #PhpMyAdmin Container
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: teu-tutor-phpmyadmin
+    environment:
+      PMA_HOST: teu-tutor-database
+      PMA_USER: root
+      PMA_PASSWORD: secret
+      MEMORY_LIMIT: 1024M
+      UPLOAD_LIMIT: 1024M
+    ports:
+      - "8081:80"
+    depends_on:
+      - database
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
+
+#Volumes
+volumes:
+  dbdata:
+    driver: local
