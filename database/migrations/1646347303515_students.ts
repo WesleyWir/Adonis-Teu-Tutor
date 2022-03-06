@@ -6,10 +6,10 @@ export default class Students extends BaseSchema {
   public async up () {
     this.schema.createTable(this.tableName, (table) => {
       table.string('id').notNullable().unique();
-      table.string('name').notNullable()
-      table.string('cpf').notNullable().unique()
+      table.string('name', 100).notNullable()
+      table.string('cpf', 15).notNullable().unique()
       table.date('birthdate').notNullable()
-      table.string('email').notNullable().unique()
+      table.string('email', 200).notNullable().unique()
       table.string('password')
       table.string('avatar')
       table.tinyint('status').defaultTo(1)

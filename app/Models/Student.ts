@@ -1,7 +1,8 @@
 import { DateTime } from 'luxon'
 import { v4 as uuid } from 'uuid';
-import { BaseModel, beforeCreate, beforeSave, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, beforeCreate, beforeSave, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import Hash from '@ioc:Adonis/Core/Hash'
+import ResetStudentsPasswordToken from './ResetStudentsPasswordToken';
 
 export default class Student extends BaseModel {
   public static selfAssignPrimaryKey = true
@@ -37,6 +38,11 @@ export default class Student extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  @hasMany(() => ResetStudentsPasswordToken, {
+    foreignKey: 'studentId'
+  })
+  public tokens: HasMany<typeof ResetStudentsPasswordToken>
 
   @beforeCreate()
   public static async createUUID (model: Student) {

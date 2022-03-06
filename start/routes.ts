@@ -29,3 +29,8 @@ Route.resource('students', 'StudentsController').except(['create'])
                                                 //   update: ['student'],
                                                 //   destroy: ['student']
                                                 // })
+
+Route.group(() => {
+  Route.post('/forgot', 'PasswordsController.forgotPassword');
+  Route.post('/reset', 'PasswordsController.resetPassword');
+}).prefix('/students')
