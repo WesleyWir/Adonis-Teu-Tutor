@@ -23,10 +23,7 @@ export default class StudentsPasswordController {
 
         return await Mail.send((message) => {
             let data = {reset_url: Env.get('FRONT_URL')+'/students/reset/', token: token};
-            message.from('no-reply@teututor.com')
-                .to(email)
-                .subject('TeuTutor: Recuperação de senha.')
-                .htmlView('emails/forgotpassword', data);
-        })
+            message.from('no-reply@teututor.com').to(email).subject('TeuTutor: Recuperação de senha.').htmlView('emails/forgotpassword', data);
+        });
     }
 }
