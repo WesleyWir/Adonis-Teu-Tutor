@@ -24,6 +24,8 @@ Route.get('/', async () => {
   return { hello: 'world' }
 })
 
+// Students
+
 Route.resource('students', 'StudentsController').except(['create'])
 .middleware({
   update: ['studentsAuth'],
@@ -39,3 +41,12 @@ Route.group(() => {
   Route.post('/students', 'StudentsSessionsController.store');
   Route.delete('/students', 'StudentsSessionsController.destroy');
 }).prefix('/sessions')
+
+// Subjects
+
+Route.resource('subjects', 'SubjectsController').except(['create'])
+// .middleware({
+//   store: ['adminAuth'],
+//   update: ['adminAuth'],
+//   destroy: ['adminAuth']
+// })

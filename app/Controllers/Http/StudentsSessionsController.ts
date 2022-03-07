@@ -8,7 +8,7 @@ export default class StudentsSessionsController {
 
         try {
             const token = await auth.use('api_students').attempt(email, password, {
-                expiresIn: '2hours',
+                expiresIn: '48hours',
             });
             return response.ok({ student: auth.student, token });
         } catch {
