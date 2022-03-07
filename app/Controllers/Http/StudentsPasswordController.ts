@@ -6,6 +6,8 @@ import Student from 'App/Models/Student';
 import ForgotPasswordValidator from 'App/Validators/ForgotPasswordValidator';
 import NotFoundException from 'App/Exceptions/NotFoundException';
 import Env from '@ioc:Adonis/Core/Env'
+import ResetPasswordValidator from 'App/Validators/ResetPasswordValidator';
+import TokenExpiredException from 'App/Exceptions/TokenExpiredException';
 
 export default class StudentsPasswordController {
     public async forgotPassword({ request }: HttpContextContract) {
@@ -25,5 +27,21 @@ export default class StudentsPasswordController {
             let data = {reset_url: Env.get('FRONT_URL')+'/students/reset/', token: token};
             message.from('no-reply@teututor.com').to(email).subject('TeuTutor: Recuperação de senha.').htmlView('emails/forgotpassword', data);
         });
+    }
+
+    public async resetPassword({ request, response }: HttpContextContract){
+        const { token, password } = await request.validate(ResetPasswordValidator)
+        const studentByToken = await Student.query().whereHas('tokens', (query) => {query.where('token', token);}).preload('tokens').first();
+
+        if(!(studentByToken)) throw new NotFoundException('Request not found. Generate new forgot email and try again.');
+
+        const tokenAge = studentByToken.tokens[0].createdAt.diffNow('hours').hours;
+
+        if(tokenAge > 2) throw new TokenExpiredException();
+
+        studentByToken.password = password;
+        await studentByToken.save();
+        await studentByToken.tokens[0].delete();
+        return response.ok({ message: 'Password has changed' });
     }
 }
