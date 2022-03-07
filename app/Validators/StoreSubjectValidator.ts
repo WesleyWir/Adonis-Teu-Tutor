@@ -8,6 +8,6 @@ export default class StoreSubjectValidator extends BaseValidator {
   }
 
   public schema = schema.create({
-    subject: schema.string({}, [rules.required()]),
+    subject: schema.string({}, [rules.required(), rules.unique({ table: 'subjects', column: 'subject'})]),
   })  
 }
