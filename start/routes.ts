@@ -25,13 +25,17 @@ Route.get('/', async () => {
 })
 
 Route.resource('students', 'StudentsController').except(['create'])
-                                                // .middleware({
-                                                //   update: ['student'],
-                                                //   destroy: ['student']
-                                                // })
+// .middleware({
+//   update: ['student'],
+//   destroy: ['student']
+// })
 
 Route.group(() => {
   Route.post('/forgot', 'StudentsPasswordController.forgotPassword');
   Route.post('/reset', 'StudentsPasswordController.resetPassword');
-  Route.post('/sessions', 'StudentsSessionsController.store');
-}).prefix('/students')
+}).prefix('/students');
+
+Route.group(() => {
+  Route.post('/students', 'StudentsSessionsController.store');
+  Route.delete('/students', 'StudentsSessionsController.destroy');
+}).prefix('/sessions')

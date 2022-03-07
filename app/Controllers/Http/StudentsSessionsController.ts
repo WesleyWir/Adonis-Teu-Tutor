@@ -8,4 +8,9 @@ export default class StudentsSessionsController {
         });
         return response.ok({ student: auth.student, token });
     }
+
+    public async destroy({ request, response, auth }: HttpContextContract) {
+        auth.use('api_students').logout();
+        return response.ok({});
+    }
 }
