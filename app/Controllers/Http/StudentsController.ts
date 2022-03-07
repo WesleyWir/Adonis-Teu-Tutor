@@ -37,7 +37,7 @@ export default class StudentsController {
     return await Student.query().select('id', 'name', 'birthdate', 'avatar').where('id', id).first();
   }
 
-  public async update({ request }: HttpContextContract) {
+  public async update({ request, bouncer }: HttpContextContract) {
     const studentPayload = await request.validate(UpdateStudent);
     const id = request.param('id');
     const student = await Student.find(id);
@@ -45,6 +45,8 @@ export default class StudentsController {
     if(!student) {
       throw new NotFoundException('Student not found');
     }
+
+    await bouncer.authorize('isTheHandledStudent', student);
 
     if (studentPayload.password) {
       const oldPassword = request.only(["old_password"]);
@@ -62,13 +64,15 @@ export default class StudentsController {
     return await student.merge(studentPayload).save()
   }
 
-  public async destroy({ request }: HttpContextContract) {
+  public async destroy({ request, bouncer }: HttpContextContract) {
     const id = request.param('id');
     const student = await Student.find(id);
 
     if(!student) {
       throw new NotFoundException('Student not found');
     }
+
+    await bouncer.authorize('isTheHandledStudent', student);
 
     return student.delete();
   }
