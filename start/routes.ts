@@ -25,10 +25,10 @@ Route.get('/', async () => {
 })
 
 Route.resource('students', 'StudentsController').except(['create'])
-// .middleware({
-//   update: ['student'],
-//   destroy: ['student']
-// })
+.middleware({
+  update: ['studentsAuth'],
+  destroy: ['studentsAuth']
+})
 
 Route.group(() => {
   Route.post('/forgot', 'StudentsPasswordController.forgotPassword');
