@@ -50,3 +50,18 @@ Route.resource('subjects', 'SubjectsController').except(['create'])
 //   update: ['adminAuth'],
 //   destroy: ['adminAuth']
 // })
+
+// Students posts
+
+Route.resource('posts/students', 'StudentPostsController').except(['create'])
+// .middleware({
+//   store: ['studentsAuth'],
+//   update: ['studentsAuth'],
+//   destroy: ['studentsAuth']
+// })
+
+
+Route.group(() => {
+  Route.get('/subject/:subjectId', 'StudentPostsController.filterBySubject')
+  Route.get('/order/:key/:type', 'StudentPostsController.order')
+}).prefix('/posts/students')

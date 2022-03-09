@@ -3,6 +3,7 @@ import { v4 as uuid } from 'uuid';
 import { BaseModel, beforeCreate, beforeSave, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import Hash from '@ioc:Adonis/Core/Hash'
 import ResetStudentsPasswordToken from './ResetStudentsPasswordToken';
+import StudentPost from './StudentPost';
 
 export default class Student extends BaseModel {
   public static selfAssignPrimaryKey = true
@@ -43,6 +44,11 @@ export default class Student extends BaseModel {
     foreignKey: 'studentId'
   })
   public tokens: HasMany<typeof ResetStudentsPasswordToken>
+
+  @hasMany(() => StudentPost, {
+    foreignKey: 'studentId'
+  })
+  public posts: HasMany<typeof StudentPost>
 
   @beforeCreate()
   public static async createUUID (model: Student) {
