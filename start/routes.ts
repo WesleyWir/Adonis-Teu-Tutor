@@ -20,10 +20,6 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.get('/', async () => {
-  return { hello: 'world' }
-})
-
 // Students
 
 Route.resource('students', 'StudentsController').except(['create'])
@@ -53,7 +49,7 @@ Route.resource('subjects', 'SubjectsController').except(['create'])
 
 // Students posts
 
-Route.resource('posts/students', 'StudentPostsController').except(['create'])
+Route.resource('posts/students', 'StudentPostsController').except(['create', 'show', 'store'])
 // .middleware({
 //   store: ['studentsAuth'],
 //   update: ['studentsAuth'],
@@ -62,6 +58,7 @@ Route.resource('posts/students', 'StudentPostsController').except(['create'])
 
 
 Route.group(() => {
+  Route.post('/:studentId', 'StudentPostsController.store')
+  Route.get('/:orderBy?/:order?/:search?/:limit?/:paged?', 'StudentPostsController.show')
   Route.get('/subject/:subjectId', 'StudentPostsController.filterBySubject')
-  Route.get('/order/:key/:type', 'StudentPostsController.order')
 }).prefix('/posts/students')

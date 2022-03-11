@@ -8,10 +8,16 @@ export default class StudentPost extends BaseModel {
   @column({ isPrimary: true })
   public id: string
 
+  @column({ columnName: 'student_id' })
+  public studentId: string;
+
   @belongsTo(() => Student, {
     foreignKey: 'studentId',
   })
   public student: BelongsTo<typeof Student>
+
+  @column({ columnName: 'subject_id' })
+  public subjectId: number;
 
   @belongsTo(() => Subject, {
     foreignKey: 'subjectId',
@@ -34,7 +40,7 @@ export default class StudentPost extends BaseModel {
   public updatedAt: DateTime
 
   @beforeCreate()
-  public static async createUUID (model: Student) {
+  public static async createUUID (model: StudentPost) {
     model.id = uuid()
   }
 }
