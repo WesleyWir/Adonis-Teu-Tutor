@@ -4,4 +4,5 @@ export default interface IGetAllPosts{
     search?: string;
     limit?: number;
     page?: number;
+    subject?: number;
 }

@@ -60,5 +60,4 @@ Route.resource('posts/students', 'StudentPostsController').except(['create', 'in
 Route.group(() => {
   Route.post('/:studentId', 'StudentPostsController.store')
   Route.get('/', 'StudentPostsController.index')
-  Route.get('/subject/:subjectId', 'StudentPostsController.filterBySubject')
 }).prefix('/posts/students')

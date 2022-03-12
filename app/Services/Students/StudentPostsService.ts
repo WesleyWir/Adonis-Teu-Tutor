@@ -7,11 +7,12 @@ import IGetAllPosts from 'App/Interfaces/Students/IGetAllPosts';
 
 
 export default class StudentPostsService {
-    public async getAllPosts({ orderBy, order, search, limit, page }: IGetAllPosts) {
+    public async getAllPosts({ orderBy, order, search, limit, page, subject }: IGetAllPosts) {
         let queryPosts = new QueryPostsService();
-        if (search) await queryPosts.setSearch(search);
-        if (orderBy && order) await queryPosts.setOrder(orderBy, order);
-        if (limit && page) await queryPosts.setPagination(limit, page);
+        if  (search) await queryPosts.setSearch(search);
+        if  (subject)   await queryPosts.setPostBySubject(subject);
+        if  (orderBy && order) await queryPosts.setOrder(orderBy, order);
+        if  (limit && page) await queryPosts.setPagination(limit, page);
         return await queryPosts.execute();
     }
 
@@ -54,12 +55,6 @@ export default class StudentPostsService {
         await studentPost.related('student').associate(student);
         await studentPost.related('subject').associate(subject);
         return await studentPost.save();
-    }
-
-    public async getPostsBySubject(subjectId: number){
-        const subject = await Subject.find(subjectId);
-        if (!subject) throw new NotFoundException('Subject not found');
-        return subject.related('posts').query().preload('student').preload('subject');
     }
 
     public async getEditPostOptions(id: string){

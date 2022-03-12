@@ -13,5 +13,6 @@ export default class IndexStudentPostValidator extends BaseValidator {
     search: schema.string.optional(),
     limit: schema.number.optional(),
     page: schema.number.optional(),
+    subject: schema.number.optional(),
   })
 }

@@ -25,6 +25,10 @@ export default class QueryPostsService {
         return this.query.paginate(page, limit);
     }
 
+    public async setPostBySubject(subjectId: number){
+        return this.query.andWhere('subject_id', '=', subjectId);
+    }
+
     public async execute(){
         return await this.query;
     }
