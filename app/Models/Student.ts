@@ -46,6 +46,9 @@ export default class Student extends BaseModel {
   public tokens: HasMany<typeof ResetStudentsPasswordToken>
 
   @hasMany(() => StudentPost, {
+    onQuery: (query) => {
+      query.where('status', true)
+    },
     foreignKey: 'studentId'
   })
   public posts: HasMany<typeof StudentPost>

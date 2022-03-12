@@ -26,7 +26,10 @@ export default class StudentPostsController {
     return await this.studentPostsService.createPost({ postPayload, studentId });
   }
 
-  public async show({ }: HttpContextContract) { }
+  public async show({ request }: HttpContextContract) {
+    const id = request.param('id');
+    return this.studentPostsService.getPostById(id);
+  }
 
   public async edit({ }: HttpContextContract) { }
 

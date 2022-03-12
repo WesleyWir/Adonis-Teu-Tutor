@@ -1,10 +1,11 @@
 import StudentPost from "App/Models/StudentPost";
+import Subject from "App/Models/Subject";
 
 export default class QueryPostsService {
     private query;
 
     public constructor() {
-        this.query = StudentPost.query().preload('student').preload('subject');
+        this.query = StudentPost.query().where('status', true).preload('student').preload('subject');
     }
 
     public async setOrder(orderBy: string, order: string){
@@ -12,7 +13,12 @@ export default class QueryPostsService {
     }
 
     public async setSearch(search: string){
-        return this.query.where('title', '%'+search+'%');
+        return this.query
+                    .join('subjects', 'student_posts.subject_id', '=', 'subjects.id')
+                    .select('student_posts.*')
+                    .where('title', 'like', `%${search}%`)
+                    .orWhere('content', 'like', `%${search}%`)
+                    .orWhere('subject', 'like', `%${search}%`);
     }
 
     public async setPagination(limit: number, page: number){
@@ -20,6 +26,7 @@ export default class QueryPostsService {
     }
 
     public async execute(){
+        console.log(this.query.toSQL())
         return await this.query;
     }
 }

@@ -7,22 +7,28 @@ import IGetAllPosts from 'App/Interfaces/Students/IGetAllPosts';
 
 
 export default class StudentPostsService {
-    public async getAllPosts({orderBy, order, search, limit, page}: IGetAllPosts){
+    public async getAllPosts({ orderBy, order, search, limit, page }: IGetAllPosts) {
         let queryPosts = new QueryPostsService();
-        if(search) await queryPosts.setSearch(search);
-        if(orderBy && order) await queryPosts.setOrder(orderBy, order);
-        if(limit && page) await queryPosts.setPagination(limit, page);
+        if (search) await queryPosts.setSearch(search);
+        if (orderBy && order) await queryPosts.setOrder(orderBy, order);
+        if (limit && page) await queryPosts.setPagination(limit, page);
         return await queryPosts.execute();
     }
 
-    public async createPost({ postPayload, studentId }: { postPayload: {title, content, subject}; studentId: string; }) {
+    public async getPostById(id: string) {
+        const post = await StudentPost.find(id);
+        if (!post) throw new NotFoundException('Post not found');
+        return await StudentPost.query().where('id', id).andWhere('status', true).preload('student').preload('subject');
+    }
+
+    public async createPost({ postPayload, studentId }: { postPayload: { title, content, subject }; studentId: string; }) {
         const student = await Student.find(studentId);
 
         if (!student) {
             throw new NotFoundException('Student not found');
         }
 
-        if(!(postPayload.subject)){
+        if (!(postPayload.subject)) {
             return await this.createPostWithoutSubject(postPayload, student);
         }
 
@@ -35,11 +41,11 @@ export default class StudentPostsService {
         return await this.createPostWithSubject(postPayload, student, subject);
     }
 
-    private async createPostWithoutSubject(postPayload: {title, content, subject}, student: Student){
+    private async createPostWithoutSubject(postPayload: { title, content, subject }, student: Student) {
         return await student.related('posts').create(postPayload);
     }
-    
-    private async createPostWithSubject(postPayload: {title, content, subject}, student: Student, subject: Subject){
+
+    private async createPostWithSubject(postPayload: { title, content, subject }, student: Student, subject: Subject) {
         let studentPost = new StudentPost();
         studentPost.title = postPayload.title;
         studentPost.content = postPayload.content;
