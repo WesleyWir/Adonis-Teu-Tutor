@@ -31,7 +31,10 @@ export default class StudentPostsController {
     return this.studentPostsService.getPostById(id);
   }
 
-  public async edit({ }: HttpContextContract) { }
+  public async edit({ request }: HttpContextContract) { 
+    const id = request.param('id');
+    return this.studentPostsService.getEditPostOptions(id);
+  }
 
   public async update({ }: HttpContextContract) { }
 

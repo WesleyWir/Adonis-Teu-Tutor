@@ -26,7 +26,6 @@ export default class QueryPostsService {
     }
 
     public async execute(){
-        console.log(this.query.toSQL())
         return await this.query;
     }
 }

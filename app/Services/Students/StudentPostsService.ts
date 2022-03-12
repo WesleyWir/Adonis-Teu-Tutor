@@ -61,4 +61,10 @@ export default class StudentPostsService {
         if (!subject) throw new NotFoundException('Subject not found');
         return subject.related('posts').query().preload('student').preload('subject');
     }
+
+    public async getEditPostOptions(id: string){
+        const post = await StudentPost.find(id);
+        if (!post) throw new NotFoundException('Post not found');
+        return post;
+    }
 }
