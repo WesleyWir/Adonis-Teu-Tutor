@@ -1,7 +1,9 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import NotFoundException from 'App/Exceptions/NotFoundException';
+import IGetAllPosts from 'App/Interfaces/Students/IGetAllPosts';
 import StudentPost from 'App/Models/StudentPost';
 import StudentPostsService from 'App/Services/Students/StudentPostsService';
+import IndexStudentPostValidator from 'App/Validators/IndexStudentPostValidator';
 import StoreStudentPostValidator from 'App/Validators/StoreStudentPostValidator';
 
 export default class StudentPostsController {
@@ -11,8 +13,9 @@ export default class StudentPostsController {
     this.studentPostsService = new StudentPostsService();
   }
 
-  public async index({ }: HttpContextContract) {
-    return await StudentPost.all();
+  public async index({ request }: HttpContextContract) {
+    const {orderBy, order, search, limit, page}: IGetAllPosts = await request.validate(IndexStudentPostValidator);
+    return await this.studentPostsService.getAllPosts({orderBy, order, search, limit, page};
   }
 
   public async create({ }: HttpContextContract) { }

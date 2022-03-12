@@ -49,7 +49,7 @@ Route.resource('subjects', 'SubjectsController').except(['create'])
 
 // Students posts
 
-Route.resource('posts/students', 'StudentPostsController').except(['create', 'show', 'store'])
+Route.resource('posts/students', 'StudentPostsController').except(['create', 'index', 'store'])
 // .middleware({
 //   store: ['studentsAuth'],
 //   update: ['studentsAuth'],
@@ -59,6 +59,6 @@ Route.resource('posts/students', 'StudentPostsController').except(['create', 'sh
 
 Route.group(() => {
   Route.post('/:studentId', 'StudentPostsController.store')
-  Route.get('/:orderBy?/:order?/:search?/:limit?/:paged?', 'StudentPostsController.show')
+  Route.get('/:orderBy?/:order?/:search?/:limit?/:page?', 'StudentPostsController.index')
   Route.get('/subject/:subjectId', 'StudentPostsController.filterBySubject')
 }).prefix('/posts/students')
