@@ -35,7 +35,10 @@ export default class StudentPostsController {
 
   public async update({ }: HttpContextContract) { }
 
-  public async destroy({ }: HttpContextContract) { }
+  public async destroy({ request }: HttpContextContract) { 
+    const id = request.param('id');
+    return await this.studentPostsService.delete(id);
+  }
 
   public async filterBySubject({ }: HttpContextContract) { }
 

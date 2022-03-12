@@ -24,9 +24,7 @@ export default class StudentPostsService {
     public async createPost({ postPayload, studentId }: { postPayload: { title, content, subject }; studentId: string; }) {
         const student = await Student.find(studentId);
 
-        if (!student) {
-            throw new NotFoundException('Student not found');
-        }
+        if (!student) throw new NotFoundException('Student not found');
 
         if (!(postPayload.subject)) {
             return await this.createPostWithoutSubject(postPayload, student);
@@ -34,11 +32,15 @@ export default class StudentPostsService {
 
         const subject = await Subject.find(postPayload.subject);
 
-        if (!subject) {
-            throw new NotFoundException('Subject not found');
-        }
+        if (!subject) throw new NotFoundException('Subject not found');
 
         return await this.createPostWithSubject(postPayload, student, subject);
+    }
+
+    public async delete(id:string){
+        const post = await StudentPost.find(id);
+        if (!post) throw new NotFoundException('Post not found');
+        return await post.delete();
     }
 
     private async createPostWithoutSubject(postPayload: { title, content, subject }, student: Student) {
