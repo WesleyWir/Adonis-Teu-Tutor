@@ -14,8 +14,8 @@ export default class StudentPostsController {
   }
 
   public async index({ request }: HttpContextContract) {
-    const {orderBy, order, search, limit, page}: IGetAllPosts = await request.validate(IndexStudentPostValidator);
-    return await this.studentPostsService.getAllPosts({orderBy, order, search, limit, page};
+    const { orderBy, order, search, limit, page }: IGetAllPosts = await request.validate(IndexStudentPostValidator);
+    return await this.studentPostsService.getAllPosts({ orderBy, order, search, limit, page });
   }
 
   public async create({ }: HttpContextContract) { }
@@ -35,11 +35,14 @@ export default class StudentPostsController {
 
   public async update({ }: HttpContextContract) { }
 
-  public async destroy({ request }: HttpContextContract) { 
+  public async destroy({ request }: HttpContextContract) {
     const id = request.param('id');
     return await this.studentPostsService.delete(id);
   }
 
-  public async filterBySubject({ }: HttpContextContract) { }
+  public async filterBySubject({ request }: HttpContextContract) {
+    const subjectId = request.param('subjectId');
+    return await this.studentPostsService.getPostsBySubject(subjectId);
+  }
 
 }

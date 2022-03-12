@@ -55,4 +55,10 @@ export default class StudentPostsService {
         await studentPost.related('subject').associate(subject);
         return await studentPost.save();
     }
+
+    public async getPostsBySubject(subjectId: number){
+        const subject = await Subject.find(subjectId);
+        if (!subject) throw new NotFoundException('Subject not found');
+        return subject.related('posts').query().preload('student').preload('subject');
+    }
 }
