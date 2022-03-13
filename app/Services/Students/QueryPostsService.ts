@@ -1,5 +1,4 @@
 import StudentPost from "App/Models/StudentPost";
-import Subject from "App/Models/Subject";
 
 export default class QueryPostsService {
     private query;
@@ -8,28 +7,25 @@ export default class QueryPostsService {
         this.query = StudentPost.query().where('status', true).preload('student').preload('subject');
     }
 
-    public async setOrder(orderBy: string, order: string){
+    public async setOrder(orderBy: string, order: string) {
         return this.query.orderBy(orderBy, order);
     }
 
-    public async setSearch(search: string){
+    public async setSearch(search: string) {
         return this.query
-                    .join('subjects', 'student_posts.subject_id', '=', 'subjects.id')
-                    .select('student_posts.*')
-                    .where('title', 'like', `%${search}%`)
-                    .orWhere('content', 'like', `%${search}%`)
-                    .orWhere('subject', 'like', `%${search}%`);
+            .join('subjects', 'student_posts.subject_id', '=', 'subjects.id').select('student_posts.*')
+            .where('title', 'like', `%${search}%`).orWhere('content', 'like', `%${search}%`).orWhere('subject', 'like', `%${search}%`);
     }
 
-    public async setPagination(limit: number, page: number){
+    public async setPagination(limit: number, page: number) {
         return this.query.paginate(page, limit);
     }
 
-    public async setPostBySubject(subjectId: number){
+    public async setPostBySubject(subjectId: number) {
         return this.query.andWhere('subject_id', '=', subjectId);
     }
 
-    public async execute(){
+    public async execute() {
         return await this.query;
     }
 }

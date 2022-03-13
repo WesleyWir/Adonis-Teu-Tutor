@@ -49,7 +49,7 @@ Route.resource('subjects', 'SubjectsController').except(['create'])
 
 // Students posts
 
-Route.resource('posts/students', 'StudentPostsController').except(['create', 'index', 'store'])
+Route.resource('posts/students', 'StudentPostsController').except(['create', 'index', 'update', 'store'])
 // .middleware({
 //   store: ['studentsAuth'],
 //   update: ['studentsAuth'],
@@ -59,5 +59,7 @@ Route.resource('posts/students', 'StudentPostsController').except(['create', 'in
 
 Route.group(() => {
   Route.post('/:studentId', 'StudentPostsController.store')
+  Route.patch('/:id/:studentId', 'StudentPostsController.update')
+  Route.put('/:id/:studentId', 'StudentPostsController.update')
   Route.get('/', 'StudentPostsController.index')
 }).prefix('/posts/students')

@@ -38,12 +38,6 @@ export default class StudentPostsService {
         return await this.createPostWithSubject(postPayload, student, subject);
     }
 
-    public async delete(id:string){
-        const post = await StudentPost.find(id);
-        if (!post) throw new NotFoundException('Post not found');
-        return await post.delete();
-    }
-
     private async createPostWithoutSubject(postPayload: { title, content, subject }, student: Student) {
         return await student.related('posts').create(postPayload);
     }
@@ -57,9 +51,41 @@ export default class StudentPostsService {
         return await studentPost.save();
     }
 
+    public async updatePost({ postPayload, postId, studentId }: { postPayload: { title, content, subject }; postId: string; studentId: string; }){
+        const post = await StudentPost.find(postId);
+        if (!post) throw new NotFoundException('Post not found');
+
+        const student = await Student.find(studentId);
+        if (!student) throw new NotFoundException('Student not found');
+
+        if (!(postPayload.subject)) {
+            return await this.updatePostWithoutSubject(postPayload, post);
+        }
+
+        const subject = await Subject.find(postPayload.subject);
+        if (!subject) throw new NotFoundException('Subject not found');
+
+        return await this.updatePostWithSubject(postPayload, subject, post);
+    }
+
+    private async updatePostWithoutSubject(postPayload: { title, content, subject }, post: StudentPost) {
+        return await post.merge(postPayload).save();
+    }
+
+    private async updatePostWithSubject(postPayload: { title, content, subject }, subject: Subject, post: StudentPost) {
+        await post.related('subject').associate(subject);
+        return await post.merge(postPayload).save();
+    }
+
     public async getEditPostOptions(id: string){
         const post = await StudentPost.find(id);
         if (!post) throw new NotFoundException('Post not found');
         return post;
+    }
+
+    public async delete(id:string){
+        const post = await StudentPost.find(id);
+        if (!post) throw new NotFoundException('Post not found');
+        return await post.delete();
     }
 }

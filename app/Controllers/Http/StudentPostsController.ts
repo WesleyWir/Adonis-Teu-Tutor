@@ -3,6 +3,7 @@ import IGetAllPosts from 'App/Interfaces/Students/IGetAllPosts';
 import StudentPostsService from 'App/Services/Students/StudentPostsService';
 import IndexStudentPostValidator from 'App/Validators/IndexStudentPostValidator';
 import StoreStudentPostValidator from 'App/Validators/StoreStudentPostValidator';
+import UpdateStudentPostValidator from 'App/Validators/UpdateStudentPostValidator';
 
 export default class StudentPostsController {
   private studentPostsService: StudentPostsService;
@@ -21,6 +22,7 @@ export default class StudentPostsController {
   public async store({ request }: HttpContextContract) {
     const postPayload = await request.validate(StoreStudentPostValidator);
     const studentId = request.param('studentId');
+    // await bouncer.authorize('isTheHandledStudent', student);
     return await this.studentPostsService.createPost({ postPayload, studentId });
   }
 
@@ -34,7 +36,13 @@ export default class StudentPostsController {
     return this.studentPostsService.getEditPostOptions(id);
   }
 
-  public async update({ }: HttpContextContract) { }
+  public async update({ request }: HttpContextContract) { 
+    const postPayload = await request.validate(UpdateStudentPostValidator);
+    const postId = request.param('id');
+    const studentId = request.param('studentId');
+    // await bouncer.authorize('isTheHandledStudent', student);
+    return await this.studentPostsService.updatePost({ postPayload, postId, studentId });
+  }
 
   public async destroy({ request }: HttpContextContract) {
     const id = request.param('id');
