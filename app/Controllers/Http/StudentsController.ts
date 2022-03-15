@@ -1,7 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Student from 'App/Models/Student';
-import CreateStudent from 'App/Validators/CreateStudentValidator';
-import UpdateStudent from 'App/Validators/UpdateStudentValidator';
+import CreateStudent from 'App/Validators/Students/CreateStudentValidator';
+import UpdateStudent from 'App/Validators/Students/UpdateStudentValidator';
 import { types } from '@ioc:Adonis/Core/Helpers';
 import Hash from '@ioc:Adonis/Core/Hash'
 import AuthorizationException from 'App/Exceptions/AuthorizationException';

@@ -1,9 +1,9 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import IGetAllPosts from 'App/Interfaces/Students/IGetAllPosts';
 import StudentPostsService from 'App/Services/Students/StudentPostsService';
-import IndexStudentPostValidator from 'App/Validators/IndexStudentPostValidator';
-import StoreStudentPostValidator from 'App/Validators/StoreStudentPostValidator';
-import UpdateStudentPostValidator from 'App/Validators/UpdateStudentPostValidator';
+import IndexStudentPostValidator from 'App/Validators/Students/IndexStudentPostValidator';
+import StoreStudentPostValidator from 'App/Validators/Students/StoreStudentPostValidator';
+import UpdateStudentPostValidator from 'App/Validators/Students/UpdateStudentPostValidator';
 
 export default class StudentPostsController {
   private studentPostsService: StudentPostsService;
