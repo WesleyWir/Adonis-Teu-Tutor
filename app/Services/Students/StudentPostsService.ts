@@ -17,8 +17,7 @@ export default class StudentPostsService {
     }
 
     public async getPostById(id: string) {
-        const post = await StudentPost.find(id);
-        if (!post) throw new NotFoundException('Post not found');
+        const post = await this.findPostOrFail(id);
         return await StudentPost.query().where('id', id).andWhere('status', true).preload('student').preload('subject');
     }
 
@@ -52,9 +51,7 @@ export default class StudentPostsService {
     }
 
     public async updatePost({ postPayload, postId, studentId }: { postPayload: { title, content, subject }; postId: string; studentId: string; }){
-        const post = await StudentPost.find(postId);
-        if (!post) throw new NotFoundException('Post not found');
-
+        const post = await this.findPostOrFail(postId)
         const student = await Student.find(studentId);
         if (!student) throw new NotFoundException('Student not found');
 
@@ -78,14 +75,18 @@ export default class StudentPostsService {
     }
 
     public async getEditPostOptions(id: string){
-        const post = await StudentPost.find(id);
-        if (!post) throw new NotFoundException('Post not found');
+        const post = await this.findPostOrFail(id);
         return post;
     }
 
     public async delete(id:string){
+        const post = await this.findPostOrFail(id);        
+        return await post.delete();
+    }
+
+    private async findPostOrFail(id: string){
         const post = await StudentPost.find(id);
         if (!post) throw new NotFoundException('Post not found');
-        return await post.delete();
+        return post;
     }
 }
