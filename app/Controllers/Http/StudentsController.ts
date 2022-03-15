@@ -71,9 +71,9 @@ export default class StudentsController {
     if(!student) {
       throw new NotFoundException('Student not found');
     }
-
     await bouncer.authorize('isTheHandledStudent', student);
 
+    // TODO: Password validation...
     return student.delete();
   }
 }
