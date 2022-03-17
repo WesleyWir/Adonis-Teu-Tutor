@@ -19,5 +19,6 @@
 */
 
 import './routes/students.routes';
+import './routes/educators.routes';
 import './routes/subjects.routes';
 import './routes/posts.routes';
