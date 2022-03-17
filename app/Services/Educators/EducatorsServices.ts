@@ -1,6 +1,5 @@
 import NotFoundException from "App/Exceptions/NotFoundException";
 import Educator from "App/Models/Educator";
-import Student from "App/Models/Student";
 
 export default class EducatorsService {
     
