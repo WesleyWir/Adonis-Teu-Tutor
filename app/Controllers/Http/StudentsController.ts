@@ -1,5 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import Student from 'App/Models/Student';
+import StudentsService from 'App/Services/Students/StudentsService';
 import CreateStudent from 'App/Validators/Students/CreateStudentValidator';
 import UpdateStudent from 'App/Validators/Students/UpdateStudentValidator';
 import { types } from '@ioc:Adonis/Core/Helpers';
@@ -8,47 +8,40 @@ import AuthorizationException from 'App/Exceptions/AuthorizationException';
 import NotFoundException from 'App/Exceptions/NotFoundException';
 
 export default class StudentsController {
-  public async index() {
-    return await Student.all();
+  private studentsService: StudentsService;
+
+  public constructor() {
+    this.studentsService = new StudentsService();
   }
 
-  public async create({ }: HttpContextContract) {
-    // Not need be implemented.
+  public async index() {
+    return await this.studentsService.getAll();
   }
+
+  public async create({ }: HttpContextContract) { }
 
   public async store({ request }: HttpContextContract) {
     const studentPayload = await request.validate(CreateStudent);
-    return Student.create(studentPayload);
+    return await this.studentsService.createStudent(studentPayload);
   }
 
   public async show({ request }: HttpContextContract) {
     const id = request.param('id');
-    const student = Student.find(id);
-
-    if(!student) {
-      throw new NotFoundException('Student not found');
-    }
-
-    return await student;
+    return await this.studentsService.getById(id);
   }
 
   public async edit({ request }: HttpContextContract) {
     const id = request.param('id');
-    return await Student.query().select('id', 'name', 'birthdate', 'avatar').where('id', id).first();
+    return await this.studentsService.getEditableStudent(id);
   }
 
   public async update({ request, bouncer }: HttpContextContract) {
-    const studentPayload = await request.validate(UpdateStudent);
+    const updateStudentPayload = await request.validate(UpdateStudent);
     const id = request.param('id');
-    const student = await Student.find(id);
-
-    if(!student) {
-      throw new NotFoundException('Student not found');
-    }
-
+    const student = await this.studentsService.getById(id);
     await bouncer.authorize('isTheHandledStudent', student);
 
-    if (studentPayload.password) {
+    if (updateStudentPayload.password) {
       const oldPassword = request.only(["old_password"]);
 
       if ((!oldPassword) || !(types.isString(oldPassword))) {
@@ -61,19 +54,13 @@ export default class StudentsController {
       }
     }
 
-    return await student.merge(studentPayload).save()
+    return await this.studentsService.updateStudent(student, updateStudentPayload);
   }
 
   public async destroy({ request, bouncer }: HttpContextContract) {
     const id = request.param('id');
-    const student = await Student.find(id);
-
-    if(!student) {
-      throw new NotFoundException('Student not found');
-    }
+    const student = await this.studentsService.getById(id);
     await bouncer.authorize('isTheHandledStudent', student);
-
-    // TODO: Password validation...
-    return student.delete();
+    return await this.studentsService.deleteStudent(id)
   }
 }
