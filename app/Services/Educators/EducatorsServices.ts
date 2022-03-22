@@ -31,7 +31,7 @@ export default class EducatorsService {
     }
 
     private async findEducatorOrFail(id: string){
-        const educator = Educator.find(id);
+        const educator = await Educator.find(id);
         if(!educator) throw new NotFoundException('Educator not found');
         return educator;
     }

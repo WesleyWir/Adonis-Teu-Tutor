@@ -31,7 +31,7 @@ export default class StudentsService {
     }
 
     private async findStudentOrFail(id: string){
-        const student = Student.find(id);
+        const student = await Student.find(id);
         if(!student) throw new NotFoundException('Student not found');
         return student;
     }
