@@ -1,47 +1,23 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import Mail from '@ioc:Adonis/Addons/Mail'
-import { randomBytes } from 'crypto';
-import { promisify } from 'util'
-import Student from 'App/Models/Student';
+import HandleStudentPasswordService from 'App/Services/Students/HandleStudentPasswordService';
 import ForgotPasswordValidator from 'App/Validators/ForgotPasswordValidator';
-import NotFoundException from 'App/Exceptions/NotFoundException';
-import Env from '@ioc:Adonis/Core/Env'
 import ResetPasswordValidator from 'App/Validators/ResetPasswordValidator';
-import TokenExpiredException from 'App/Exceptions/TokenExpiredException';
 
 export default class StudentsPasswordController {
+    private _handlePasswordService: HandleStudentPasswordService;
+
+    public constructor() {
+        this._handlePasswordService = new HandleStudentPasswordService();
+    }
+
     public async forgotPassword({ request }: HttpContextContract) {
         const reqPayload = await request.validate(ForgotPasswordValidator)
         const { email } = reqPayload;
-        const student = await Student.findBy('email', email);
-
-        if(!(student)){
-          throw new NotFoundException('Student not found');
-        }
-
-        const random = await promisify(randomBytes)(24);
-        const token = random.toString('hex');
-        await student.related('tokens').updateOrCreate({ studentId: student.id }, {token,});
-
-        return await Mail.send((message) => {
-            let data = {reset_url: Env.get('FRONT_URL')+'/students/reset/', token: token};
-            message.from('no-reply@teututor.com').to(email).subject('TeuTutor: Recuperação de senha.').htmlView('emails/forgotpassword', data);
-        });
+        return await this._handlePasswordService.handleForgotPassword(email);
     }
 
-    public async resetPassword({ request, response }: HttpContextContract){
+    public async resetPassword({ request }: HttpContextContract){
         const { token, password } = await request.validate(ResetPasswordValidator)
-        const studentByToken = await Student.query().whereHas('tokens', (query) => {query.where('token', token);}).preload('tokens').first();
-
-        if(!(studentByToken)) throw new NotFoundException('Request not found. Generate new forgot email and try again.');
-
-        const tokenAge = studentByToken.tokens[0].createdAt.diffNow('hours').hours;
-
-        if(tokenAge > 2) throw new TokenExpiredException();
-
-        studentByToken.password = password;
-        await studentByToken.save();
-        await studentByToken.tokens[0].delete();
-        return response.ok({ message: 'Password has changed' });
+        return await this._handlePasswordService.handleResetPassword(token, password)
     }
 }
