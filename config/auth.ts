@@ -35,6 +35,22 @@ const authConfig: AuthConfig = {
         model: () => import('App/Models/Student'),
       },
     },
+    api_educators: {
+      driver: 'oat',
+      tokenProvider: {
+        type: 'api',
+        driver: 'database',
+        table: 'educators_api_tokens',
+        foreignKey: 'educator_id',
+      },
+
+      provider: {
+        driver: 'lucid',
+        identifierKey: 'id',
+        uids: ['email'],
+        model: () => import('App/Models/Educator'),
+      },
+    },
   },
 }
 

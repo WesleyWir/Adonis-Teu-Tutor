@@ -3,7 +3,8 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import AuthorizationException from 'App/Exceptions/AuthorizationException';
 
 export default class StudentsAuth {
-     protected redirectTo = '/login'
+     protected redirectTo = '/students/login'
+  static readonly GUARDS_TO_AUTH: (keyof GuardsList)[] = ['api_students'];
 
      protected async authenticate(auth: HttpContextContract['auth'], guards: (keyof GuardsList)[]) {
        let guardLastAttempted: string | undefined
@@ -31,7 +32,7 @@ export default class StudentsAuth {
        next: () => Promise<void>,
        customGuards: (keyof GuardsList)[]
      ) {
-       const guards = customGuards.length ? customGuards : [auth.name]
+       const guards = customGuards.length ? customGuards : StudentsAuth.GUARDS_TO_AUTH;
        await this.authenticate(auth, guards)
        await next();
      }

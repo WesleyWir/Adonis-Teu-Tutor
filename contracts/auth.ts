@@ -5,6 +5,7 @@
  * file.
  */
 
+import Educator from 'App/Models/Educator'
 import Student from 'App/Models/Student'
 
 declare module '@ioc:Adonis/Addons/Auth' {
@@ -33,9 +34,13 @@ declare module '@ioc:Adonis/Addons/Auth' {
     | different Lucid models.
     |
     */
-    user: {
+    student: {
       implementation: LucidProviderContract<typeof Student>
       config: LucidProviderConfig<typeof Student>
+    },
+    educator:{
+      implementation: LucidProviderContract<typeof Educator>
+      config: LucidProviderConfig<typeof Educator>
     }
   }
 
@@ -64,9 +69,13 @@ declare module '@ioc:Adonis/Addons/Auth' {
     | to authenticate requests.
     |
     */
-    api: {
-      implementation: OATGuardContract<'user', 'api'>
-      config: OATGuardConfig<'user'>
-    }
+    api_students: {
+      implementation: OATGuardContract<'student', 'api_students'>
+      config: OATGuardConfig<'student'>
+    },
+    api_educators: {
+      implementation: OATGuardContract<'educator', 'api_educators'>
+      config: OATGuardConfig<'educator'>
+    },
   }
 }
