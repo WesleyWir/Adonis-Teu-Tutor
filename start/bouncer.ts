@@ -6,6 +6,7 @@
  */
 
 import Bouncer from '@ioc:Adonis/Addons/Bouncer'
+import Educator from 'App/Models/Educator';
 import Student from 'App/Models/Student'
 
 /*
@@ -30,8 +31,10 @@ import Student from 'App/Models/Student'
 | NOTE: Always export the "actions" const from this file
 |****************************************************************
 */
-export const { actions } = Bouncer.define('isTheHandledStudent', (student: Student, updateStudent: Student) => {
-    return student.id === updateStudent.id;
+export const { actions } = Bouncer.define('isTheHandledStudent', (student: Student, handledStudent: Student) => {
+    return student.id === handledStudent.id;
+}).define('isTheHandledEducator', (educator: Educator, handledEducator: Educator) => {
+    return educator.id === handledEducator.id;
 })
 
 /*

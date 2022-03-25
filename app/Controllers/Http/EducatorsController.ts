@@ -38,7 +38,7 @@ export default class EducatorsController {
     const id = request.param('id');
     const updateEducatorPayload = await request.validate(UpdateEducatorValidator);
     const educator = await this.educatorsService.getById(id);
-    // await bouncer.authorize('isTheHandledEducator', educator);
+    await bouncer.authorize('isTheHandledEducator', educator);
     if (updateEducatorPayload.password) {
       const oldPassword = request.only(["old_password"]);
 
@@ -55,8 +55,10 @@ export default class EducatorsController {
     return await this.educatorsService.updateEducator(educator, updateEducatorPayload)
   }
 
-  public async destroy({ request }: HttpContextContract) {
+  public async destroy({ request, bouncer }: HttpContextContract) {
     const id = request.param('id');
+    const educator = await this.educatorsService.getById(id);
+    await bouncer.authorize('isTheHandledEducator', educator);
     return await this.educatorsService.deleteEducator(id);
   }
 }

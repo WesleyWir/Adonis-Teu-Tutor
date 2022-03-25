@@ -1,6 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import IGetAllPosts from 'App/Interfaces/Students/IGetAllPosts';
 import StudentPostsService from 'App/Services/Students/StudentPostsService';
+import StudentsService from 'App/Services/Students/StudentsService';
 import IndexStudentPostValidator from 'App/Validators/Students/IndexStudentPostValidator';
 import StoreStudentPostValidator from 'App/Validators/Students/StoreStudentPostValidator';
 import UpdateStudentPostValidator from 'App/Validators/Students/UpdateStudentPostValidator';
@@ -19,10 +20,11 @@ export default class StudentPostsController {
 
   public async create({ }: HttpContextContract) { }
 
-  public async store({ request }: HttpContextContract) {
+  public async store({ request, bouncer }: HttpContextContract) {
     const postPayload = await request.validate(StoreStudentPostValidator);
     const studentId = request.param('studentId');
-    // await bouncer.authorize('isTheHandledStudent', student);
+    const studentService = new StudentsService();
+    await bouncer.authorize('isTheHandledStudent', await studentService.getById(studentId));
     return await this.studentPostsService.createPost({ postPayload, studentId });
   }
 
@@ -36,11 +38,12 @@ export default class StudentPostsController {
     return this.studentPostsService.getEditPostOptions(id);
   }
 
-  public async update({ request }: HttpContextContract) { 
+  public async update({ request, bouncer }: HttpContextContract) { 
     const postPayload = await request.validate(UpdateStudentPostValidator);
     const postId = request.param('id');
     const studentId = request.param('studentId');
-    // await bouncer.authorize('isTheHandledStudent', student);
+    const studentService = new StudentsService();
+    await bouncer.authorize('isTheHandledStudent', await studentService.getById(studentId));
     return await this.studentPostsService.updatePost({ postPayload, postId, studentId });
   }
 
