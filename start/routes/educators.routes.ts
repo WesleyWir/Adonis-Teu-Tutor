@@ -23,7 +23,7 @@ Route.group(() => {
 Route.group(() => {
   Route.get('/educators/', 'EducatorAddressesController.index'); // Maybe without auth
   Route.get('/educators/:id', 'EducatorAddressesController.show');
-  Route.get('/educators/:id', 'EducatorAddressesController.edit');
+  Route.get('/educators/edit/:id', 'EducatorAddressesController.edit');
   Route.post('/educators/', 'EducatorAddressesController.store');
   Route.put('/educators/:id', 'EducatorAddressesController.update');
   Route.patch('/educators/:id', 'EducatorAddressesController.update');

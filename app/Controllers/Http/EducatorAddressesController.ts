@@ -16,14 +16,15 @@ export default class EducatorAddressesController {
   public async create({}: HttpContextContract) {}
 
   public async store({ request, auth }: HttpContextContract) {
-    const addressPayload = request.validate(CreateEducatorAddressValidator);
-    const educator = auth.educator;
-    // return await this.educatorAddressService.createAddressToStudent(addressPayload, educator);
+    const addressPayload = await request.validate(CreateEducatorAddressValidator);
+    console.log(addressPayload);
+    const educator = auth.user;
+    return await this.educatorAddressService.createAddressToStudent(addressPayload, educator);
   }
 
   public async show({ request, auth }: HttpContextContract) {
-    const educator = auth.educator;
-    return await this.educatorAddressService.getById(educator.id);
+    // const educator = auth.educator;
+    // return await this.educatorAddressService.getById(educator.id);
   }
 
   public async edit({}: HttpContextContract) {}

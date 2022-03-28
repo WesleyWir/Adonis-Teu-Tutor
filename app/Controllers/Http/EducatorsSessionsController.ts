@@ -11,7 +11,7 @@ export default class EducatorsSessionsController {
                 expiresIn: '48hours',
             });
 
-            return response.ok({ educator: auth.educator, token });
+            return response.ok({ educator: auth.user, token });
         } catch {
             throw new BadRequestException('Invalid credentials');
         }

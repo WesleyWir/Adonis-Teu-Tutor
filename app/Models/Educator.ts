@@ -1,8 +1,9 @@
 import { DateTime } from 'luxon'
 import { v4 as uuid } from 'uuid';
-import { BaseModel, beforeCreate, beforeSave, column, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, beforeCreate, beforeSave, column, hasMany, HasMany, ManyToMany, manyToMany } from '@ioc:Adonis/Lucid/Orm'
 import Hash from '@ioc:Adonis/Core/Hash'
 import ResetEducatorsPasswordToken from './ResetEducatorsPasswordToken';
+import EducatorAdress from './EducatorAdress';
 
 export default class Educator extends BaseModel {
   public static selfAssignPrimaryKey = true
@@ -43,6 +44,19 @@ export default class Educator extends BaseModel {
     foreignKey: 'educatorId'
   })
   public tokens: HasMany<typeof ResetEducatorsPasswordToken>
+
+  @manyToMany(() => EducatorAdress, {
+    pivotTable: 'educator_has_address',
+    localKey: 'id',
+    pivotForeignKey: 'educator_id',
+    relatedKey: 'id',
+    pivotRelatedForeignKey: 'address_id',
+    pivotTimestamps: {
+      createdAt: 'created_at',
+      updatedAt: 'updated_at'
+    }
+  })
+  public addresses: ManyToMany<typeof EducatorAdress>
 
   @beforeCreate()
   public static async createUUID (model: Educator) {

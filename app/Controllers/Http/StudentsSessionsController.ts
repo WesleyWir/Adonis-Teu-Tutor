@@ -10,7 +10,7 @@ export default class StudentsSessionsController {
             const token = await auth.use('api_students').attempt(email, password, {
                 expiresIn: '48hours',
             });
-            return response.ok({ student: auth.student, token });
+            return response.ok({ student: auth.user, token });
         } catch {
             throw new BadRequestException('Invalid credentials');
         }
