@@ -14,6 +14,9 @@ export default class Educator extends BaseModel {
   @column()
   public name: string
 
+  @column({ columnName: 'average_price' })
+  public averagePrice: number
+
   @column()
   public cpf: string
 
@@ -25,7 +28,7 @@ export default class Educator extends BaseModel {
   @column()
   public email: string
 
-  @column({serializeAs: null})
+  @column({ serializeAs: null })
   public password: string
 
   @column()
@@ -59,12 +62,12 @@ export default class Educator extends BaseModel {
   public addresses: ManyToMany<typeof EducatorAdress>
 
   @beforeCreate()
-  public static async createUUID (model: Educator) {
+  public static async createUUID(model: Educator) {
     model.id = uuid()
   }
 
   @beforeSave()
-  public static async hashPassword (model: Educator) {
+  public static async hashPassword(model: Educator) {
     if (model.$dirty.password) {
       model.password = await Hash.make(model.password)
     }
