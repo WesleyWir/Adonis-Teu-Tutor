@@ -5,7 +5,6 @@ import UpdateStudent from 'App/Validators/Students/UpdateStudentValidator';
 import { types } from '@ioc:Adonis/Core/Helpers';
 import Hash from '@ioc:Adonis/Core/Hash'
 import AuthorizationException from 'App/Exceptions/AuthorizationException';
-import NotFoundException from 'App/Exceptions/NotFoundException';
 
 export default class StudentsController {
   private studentsService: StudentsService;

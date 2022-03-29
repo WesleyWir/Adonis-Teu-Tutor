@@ -22,6 +22,8 @@ Route.group(() => {
 
 Route.group(() => {
   Route.get('/educators/', 'EducatorAddressesController.index'); // Maybe without auth
+}).prefix('/addresses')
+Route.group(() => {
   Route.get('/educators/:id', 'EducatorAddressesController.show');
   Route.get('/educators/edit/:id', 'EducatorAddressesController.edit');
   Route.post('/educators/', 'EducatorAddressesController.store');

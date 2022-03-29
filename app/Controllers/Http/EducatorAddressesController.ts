@@ -10,26 +10,37 @@ export default class EducatorAddressesController {
   }
 
   public async index({}: HttpContextContract) {
-    // return this.educatorAddressService.getAll();
+    return await this.educatorAddressService.distinctAllAttributes();
   }
 
   public async create({}: HttpContextContract) {}
 
   public async store({ request, auth }: HttpContextContract) {
     const addressPayload = await request.validate(CreateEducatorAddressValidator);
-    console.log(addressPayload);
     const educator = auth.user;
     return await this.educatorAddressService.createAddressToStudent(addressPayload, educator);
   }
 
-  public async show({ request, auth }: HttpContextContract) {
-    // const educator = auth.educator;
-    // return await this.educatorAddressService.getById(educator.id);
+  public async show({ request }: HttpContextContract) {
+    const id = request.param('id');
+    return await this.educatorAddressService.getByEducatorId(id);
   }
 
-  public async edit({}: HttpContextContract) {}
+  public async edit({ request }: HttpContextContract) {
+    const id = request.param('id');
+    return await this.educatorAddressService.getByEducatorId(id);
+  }
 
-  public async update({}: HttpContextContract) {}
+  public async update({ request, auth }: HttpContextContract) {
+    const educator = auth.user;
+    const id = request.param('id');
+    const addressPayload = await request.validate(CreateEducatorAddressValidator);
+    return await this.educatorAddressService.updateAddress(educator, id, addressPayload);
+  }
 
-  public async destroy({}: HttpContextContract) {}
+  public async destroy({ request, auth }: HttpContextContract) {
+    const educator = auth.user;
+    const id = request.param('id');
+    return await this.educatorAddressService.deleteAddress(educator, id);
+  }
 }
