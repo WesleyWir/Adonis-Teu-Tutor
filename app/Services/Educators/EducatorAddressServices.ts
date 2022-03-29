@@ -1,6 +1,6 @@
 import NotFoundException from "App/Exceptions/NotFoundException";
 import Educator from "App/Models/Educator";
-import EducatorAdress from "App/Models/EducatorAdress";
+import EducatorAdress from "App/Models/EducatorAddress";
 
 export default class EducatorAdressServices{
     
@@ -9,6 +9,10 @@ export default class EducatorAdressServices{
     }
 
     async createAddressToStudent(addressPayload: object, educator: Educator){
+        const allreadyAddress = await this.getByEducatorId(educator.id);
+        if(allreadyAddress.length >= 1){
+            return await this.updateAddress(educator, allreadyAddress[0].id, addressPayload);
+        }
         const address = await EducatorAdress.create(addressPayload);
         await address.related('educators').attach([educator.id]);
         return address;
@@ -17,7 +21,7 @@ export default class EducatorAdressServices{
     async getByEducatorId(educatorId: string){
         const educator = await Educator.find(educatorId);
         if(!educator) throw new NotFoundException('Educator not found');
-        return educator.related('addresses');
+        return educator.related('addresses').query();
     }
 
     async distinctAllAttributes(){

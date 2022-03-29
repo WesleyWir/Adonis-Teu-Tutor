@@ -3,7 +3,7 @@ import { v4 as uuid } from 'uuid';
 import { BaseModel, beforeCreate, beforeSave, column, hasMany, HasMany, ManyToMany, manyToMany } from '@ioc:Adonis/Lucid/Orm'
 import Hash from '@ioc:Adonis/Core/Hash'
 import ResetEducatorsPasswordToken from './ResetEducatorsPasswordToken';
-import EducatorAdress from './EducatorAdress';
+import EducatorAdress from './EducatorAddress';
 
 export default class Educator extends BaseModel {
   public static selfAssignPrimaryKey = true

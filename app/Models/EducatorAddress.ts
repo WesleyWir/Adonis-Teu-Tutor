@@ -2,7 +2,7 @@ import { DateTime } from 'luxon'
 import { BaseModel, column, ManyToMany, manyToMany } from '@ioc:Adonis/Lucid/Orm'
 import Educator from './Educator'
 
-export default class EducatorAdress extends BaseModel {
+export default class EducatorAddress extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 

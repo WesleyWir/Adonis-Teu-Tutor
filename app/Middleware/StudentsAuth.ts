@@ -3,7 +3,7 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import AuthorizationException from 'App/Exceptions/AuthorizationException';
 
 export default class StudentsAuth {
-     protected redirectTo = '/students/login'
+     protected redirectTo = '/students/login/'
   static readonly GUARDS_TO_AUTH: (keyof GuardsList)[] = ['api_students'];
 
      protected async authenticate(auth: HttpContextContract['auth'], guards: (keyof GuardsList)[]) {
