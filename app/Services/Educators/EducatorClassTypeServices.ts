@@ -1,6 +1,5 @@
 import NotFoundException from "App/Exceptions/NotFoundException";
 import Educator from "App/Models/Educator";
-import EducatorClassType from "App/Models/EducatorClassType";
 import { ClassTypes } from "Contracts/enums";
 
 export default class EducatorClassTypeServices {

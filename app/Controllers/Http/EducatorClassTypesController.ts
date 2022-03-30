@@ -10,8 +10,8 @@ export default class EducatorClassTypesController {
   }
 
   public async store({ request, auth }: HttpContextContract) {
-    const classTypePayload = request.validate(StoreEducatorClassTypeValidator);
-    return await this._educatorClassTypeService.updateOrCreateClassType(auth.user, classTypePayload); 
+    const classTypePayload = await request.validate(StoreEducatorClassTypeValidator);
+    return await this._educatorClassTypeService.updateOrCreateClassType(auth.user, classTypePayload.type); 
   }
 
   public async show({ request }: HttpContextContract) {

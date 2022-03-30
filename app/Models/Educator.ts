@@ -44,9 +44,7 @@ export default class Educator extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
-  @hasOne(() => EducatorClassType, {
-    foreignKey: 'profileUserId', // defaults to userId
-  })
+  @hasOne(() => EducatorClassType)
   public classType: HasOne<typeof EducatorClassType>
 
   @hasMany(() => ResetEducatorsPasswordToken, {

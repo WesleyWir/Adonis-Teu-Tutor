@@ -9,8 +9,6 @@ export default class EducatorClassTypes extends BaseSchema {
       table.increments('id')
       table.string('educator_id').references('educators.id').onDelete('CASCADE');
       table.enum('type', Object.values(ClassTypes)).defaultTo(ClassTypes.ONLINE).notNullable();
-      table.timestamp('created_at', { useTz: true })
-      table.timestamp('updated_at', { useTz: true })
     })
   }
 
