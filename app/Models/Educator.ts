@@ -1,9 +1,10 @@
 import { DateTime } from 'luxon'
 import { v4 as uuid } from 'uuid';
-import { BaseModel, beforeCreate, beforeSave, column, hasMany, HasMany, ManyToMany, manyToMany } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, beforeCreate, beforeSave, column, hasMany, HasMany, hasOne, HasOne, ManyToMany, manyToMany } from '@ioc:Adonis/Lucid/Orm'
 import Hash from '@ioc:Adonis/Core/Hash'
 import ResetEducatorsPasswordToken from './ResetEducatorsPasswordToken';
 import EducatorAdress from './EducatorAddress';
+import EducatorClassType from './EducatorClassType';
 
 export default class Educator extends BaseModel {
   public static selfAssignPrimaryKey = true
@@ -42,6 +43,11 @@ export default class Educator extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  @hasOne(() => EducatorClassType, {
+    foreignKey: 'profileUserId', // defaults to userId
+  })
+  public classType: HasOne<typeof EducatorClassType>
 
   @hasMany(() => ResetEducatorsPasswordToken, {
     foreignKey: 'educatorId'

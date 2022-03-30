@@ -1,21 +1,22 @@
 import { DateTime } from 'luxon'
-import { BaseModel, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
-import Educator from './Educator';
+import { BaseModel, belongsTo, BelongsTo, column } from '@ioc:Adonis/Lucid/Orm'
+import { ClassTypes } from 'Contracts/enums'
+import Educator from './Educator'
 
-export default class ResetEducatorsPasswordToken extends BaseModel {
+export default class EducatorClassType extends BaseModel {
   @column({ isPrimary: true })
   public id: number
-
-  @column()
-  public token: string
 
   @column({ columnName: 'educator_id' })
   public educatorId: string;
 
   @belongsTo(() => Educator, {
-    foreignKey: 'educatorId',
+    foreignKey: 'educator_id',
   })
   public educator: BelongsTo<typeof Educator>
+
+  @column()
+  public type: ClassTypes
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
