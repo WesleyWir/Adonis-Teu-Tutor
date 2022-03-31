@@ -5,6 +5,7 @@ import Hash from '@ioc:Adonis/Core/Hash'
 import ResetEducatorsPasswordToken from './ResetEducatorsPasswordToken';
 import EducatorAdress from './EducatorAddress';
 import EducatorClassType from './EducatorClassType';
+import EducatorInPerson from './EducatorInPerson';
 
 export default class Educator extends BaseModel {
   public static selfAssignPrimaryKey = true
@@ -46,6 +47,9 @@ export default class Educator extends BaseModel {
 
   @hasOne(() => EducatorClassType)
   public classType: HasOne<typeof EducatorClassType>
+
+  @hasOne(() => EducatorInPerson)
+  public inPerson: HasOne<typeof EducatorInPerson>
 
   @hasMany(() => ResetEducatorsPasswordToken, {
     foreignKey: 'educatorId'

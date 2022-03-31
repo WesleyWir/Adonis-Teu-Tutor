@@ -39,8 +39,17 @@ Route.group(() => {
 // Class types
 
 Route.group(() => {
-  Route.get('/educators/:id', 'EducatorClassTypesController.show'); // Maybe without auth
+  Route.get('/educators/:id', 'EducatorClassTypesController.show');
 }).prefix('/class-types')
 Route.group(() => {
-  Route.post('/educators/', 'EducatorClassTypesController.store'); // Maybe without auth
-}).prefix('/class-types').middleware(['educatorsAuth'])
+  Route.post('/educators/', 'EducatorClassTypesController.store');
+}).prefix('/class-types').middleware(['educatorsAuth']);
+
+// In person types
+
+Route.group(() => {
+  Route.get('/educators/:id', 'EducatorInPersonController.show');
+}).prefix('/in-person/');
+Route.group(() => {
+  Route.post('/educators/', 'EducatorInPersonController.store');
+}).prefix('/in-person/').middleware(['educatorsAuth']);
