@@ -12,8 +12,7 @@ export default class EducatorsService {
     }
 
     public async getById(id: string){
-        const educator = await this.findEducatorOrFail(id);
-        return educator;
+        return await this.findEducatorOrFail(id);
     }
 
     public async getEditableEducator(id: string){
@@ -27,7 +26,7 @@ export default class EducatorsService {
 
     public async deleteEducator(id: string){
         const educator = await this.findEducatorOrFail(id);
-        return educator.delete();
+        return await educator.delete();
     }
 
     private async findEducatorOrFail(id: string){

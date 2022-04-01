@@ -1,7 +1,6 @@
 import Route from '@ioc:Adonis/Core/Route'
 
 // CRUD
-
 Route.resource('educators', 'EducatorsController').except(['create'])
 .middleware({
   update: ['educatorsAuth'],
@@ -9,21 +8,18 @@ Route.resource('educators', 'EducatorsController').except(['create'])
 })
 
 // forgot/reset password
-
 Route.group(() => {
   Route.post('/forgot', 'EducatorsPasswordController.forgotPassword');
   Route.post('/reset', 'EducatorsPasswordController.resetPassword');
 }).prefix('/educators');
 
 // Sessions
-
 Route.group(() => {
   Route.post('/educators', 'EducatorsSessionsController.store');
   Route.delete('/educators', 'EducatorsSessionsController.destroy');
 }).prefix('/sessions')
 
 // Addresses
-
 Route.group(() => {
   Route.get('/educators/', 'EducatorAddressesController.index');
 }).prefix('/addresses')
@@ -37,7 +33,6 @@ Route.group(() => {
 }).prefix('/addresses').middleware(['educatorsAuth'])
 
 // Class types
-
 Route.group(() => {
   Route.get('/educators/:id', 'EducatorClassTypesController.show');
 }).prefix('/class-types')
@@ -46,10 +41,16 @@ Route.group(() => {
 }).prefix('/class-types').middleware(['educatorsAuth']);
 
 // In person types
-
 Route.group(() => {
   Route.get('/educators/:id', 'EducatorInPersonController.show');
 }).prefix('/in-person/');
 Route.group(() => {
   Route.post('/educators/', 'EducatorInPersonController.store');
 }).prefix('/in-person/').middleware(['educatorsAuth']);
+
+// Online Tools
+Route.resource('online-tools', 'EducatorOptionToolsController').except(['create'])
+// .middleware({
+//   update: ['adminAuth'],
+//   destroy: ['adminAuth']
+// })
