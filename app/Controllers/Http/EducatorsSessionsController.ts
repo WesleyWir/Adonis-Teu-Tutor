@@ -3,7 +3,7 @@ import BadRequestException from 'App/Exceptions/BadRequestException';
 import SessionsStoreValidator from 'App/Validators/SessionsStoreValidator';
 
 export default class EducatorsSessionsController {
-    async store({ request, response, auth }: HttpContextContract) {
+    async store({ request, response, auth, i18n }: HttpContextContract) {
         const { email, password } = await request.validate(SessionsStoreValidator);
 
         try {
@@ -13,7 +13,7 @@ export default class EducatorsSessionsController {
 
             return response.ok({ educator: auth.user, token });
         } catch {
-            throw new BadRequestException('Invalid credentials');
+            throw new BadRequestException(i18n.formatMessage('messages.invalid_credentials'));
         }
     }
 

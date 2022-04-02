@@ -5,12 +5,13 @@ import { randomBytes } from 'crypto';
 import { promisify } from 'util';
 import Env from '@ioc:Adonis/Core/Env'
 import TokenExpiredException from "App/Exceptions/TokenExpiredException";
+import I18nSingleton from "../Singletons/I18nSingleton";
 
 export default class HandleEducatorPasswordService{
     async handleForgotPassword(email: string){
         const educator = await Educator.findBy('email', email);
 
-        if(!(educator)) throw new NotFoundException('Educator not found');
+        if(!(educator)) throw new NotFoundException(I18nSingleton.getInstance().executeFormatMessage('messages.educator_not_found'));
 
         const random = await promisify(randomBytes)(24);
         const token = random.toString('hex');
@@ -25,7 +26,7 @@ export default class HandleEducatorPasswordService{
     async handleResetPassword(token: string, password: string){
         const educatorByToken = await Educator.query().whereHas('tokens', (query) => {query.where('token', token);}).preload('tokens').first();
 
-        if(!(educatorByToken)) throw new NotFoundException('Request not found. Generate new forgot email and try again.');
+        if(!(educatorByToken)) throw new NotFoundException(I18nSingleton.getInstance().executeFormatMessage('messages.password_reset_request_not_found'));
 
         const tokenAge = educatorByToken.tokens[0].createdAt.diffNow('hours').hours;
 

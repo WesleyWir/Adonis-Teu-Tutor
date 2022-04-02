@@ -1,5 +1,6 @@
 import NotFoundException from "App/Exceptions/NotFoundException";
 import Educator from "App/Models/Educator";
+import I18nSingleton from "../Singletons/I18nSingleton";
 
 export default class EducatorsService {
     
@@ -31,7 +32,7 @@ export default class EducatorsService {
 
     private async findEducatorOrFail(id: string){
         const educator = await Educator.find(id);
-        if(!educator) throw new NotFoundException('Educator not found');
+        if(!educator) throw new NotFoundException(I18nSingleton.getInstance().executeFormatMessage('messages.educator_not_found'));
         return educator;
     }
 }

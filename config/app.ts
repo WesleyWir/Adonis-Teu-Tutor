@@ -37,6 +37,8 @@ export const appKey: string = Env.get('APP_KEY')
 |
 */
 export const http: ServerConfig = {
+  // TODO: this is used to i18n, try not use this. set to false.
+  useAsyncLocalStorage: true,
   /*
   |--------------------------------------------------------------------------
   | Allow method spoofing

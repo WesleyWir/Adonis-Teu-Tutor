@@ -1,6 +1,7 @@
 import NotFoundException from "App/Exceptions/NotFoundException";
 import Educator from "App/Models/Educator";
 import EducatorAdress from "App/Models/EducatorAddress";
+import I18nSingleton from "../Singletons/I18nSingleton";
 
 export default class EducatorAdressServices{
     
@@ -20,7 +21,7 @@ export default class EducatorAdressServices{
 
     async getByEducatorId(educatorId: string){
         const educator = await Educator.find(educatorId);
-        if(!educator) throw new NotFoundException('Educator not found');
+        if(!educator) throw new NotFoundException(I18nSingleton.getInstance().executeFormatMessage('messages.educator_not_found'));
         return educator.related('addresses').query();
     }
 
@@ -35,13 +36,13 @@ export default class EducatorAdressServices{
 
     async updateAddress(educator: Educator, addressId: number, addressPayload: object){
         let address = await educator.related('addresses').query().first();
-        if(!address) throw new NotFoundException('Address not found');
+        if(!address) throw new NotFoundException(I18nSingleton.getInstance().executeFormatMessage('messages.address_not_found'));
         return await address.merge(addressPayload).save();
     }
 
     async deleteAddress(educator: Educator, addressId: number){
         let address = await educator.related('addresses').query().first();
-        if(!address) throw new NotFoundException('Address not found');
+        if(!address) throw new NotFoundException(I18nSingleton.getInstance().executeFormatMessage('messages.address_not_found'));
         return await address.delete();
     }
 

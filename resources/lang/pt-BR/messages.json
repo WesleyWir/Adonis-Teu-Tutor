@@ -1,0 +1,12 @@
+{
+    "educator_not_found": "Educador não encontrado",
+    "student_not_found": "Estudante não encontrado",
+    "subject_not_found": "Matéria não encontrada",
+    "post_not_found": "Post não encontrado",
+    "relation_not_exist": "Relation requested not exist",
+    "address_not_found": "Endereço não encontrado",
+    "tool_not_found": "Ferramenta não encontrada",
+    "old_password_dont_match": "A senha antiga não condiz",
+    "invalid_credentials": "Email/Senha incorreta",
+    "password_reset_request_not_found": "Pedido não encontrado. Faça o pedido e tente novamente"
+}

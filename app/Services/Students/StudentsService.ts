@@ -1,5 +1,6 @@
 import NotFoundException from "App/Exceptions/NotFoundException";
 import Student from "App/Models/Student";
+import I18nSingleton from "../Singletons/I18nSingleton";
 
 export default class StudentsService {
     
@@ -32,7 +33,7 @@ export default class StudentsService {
 
     private async findStudentOrFail(id: string){
         const student = await Student.find(id);
-        if(!student) throw new NotFoundException('Student not found');
+        if(!student) throw new NotFoundException(I18nSingleton.getInstance().executeFormatMessage('messages.student_not_found'));
         return student;
     }
 }

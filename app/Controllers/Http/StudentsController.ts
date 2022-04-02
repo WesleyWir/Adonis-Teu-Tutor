@@ -34,7 +34,7 @@ export default class StudentsController {
     return await this.studentsService.getEditableStudent(id);
   }
 
-  public async update({ request, bouncer }: HttpContextContract) {
+  public async update({ request, bouncer, i18n }: HttpContextContract) {
     const updateStudentPayload = await request.validate(UpdateStudent);
     const id = request.param('id');
     const student = await this.studentsService.getById(id);
@@ -44,12 +44,12 @@ export default class StudentsController {
       const oldPassword = request.only(["old_password"]);
 
       if ((!oldPassword) || !(types.isString(oldPassword))) {
-        throw new AuthorizationException("Old password doesn't match");
+        throw new AuthorizationException(i18n.formatMessage('messages.old_password_dont_match'));
       }
 
       const authenticated = await Hash.verify(student.password, oldPassword);
       if (!authenticated) {
-        throw new AuthorizationException("Old password doesn't match");
+        throw new AuthorizationException(i18n.formatMessage('messages.old_password_dont_match'));
       }
     }
 

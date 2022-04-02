@@ -4,6 +4,7 @@ import Subject from 'App/Models/Subject';
 import NotFoundException from 'App/Exceptions/NotFoundException';
 import QueryPostsService from './QueryPostsService';
 import IGetAllPosts from 'App/Interfaces/Students/IGetAllPosts';
+import I18nSingleton from '../Singletons/I18nSingleton';
 
 
 export default class StudentPostsService {
@@ -24,7 +25,7 @@ export default class StudentPostsService {
     public async createPost({ postPayload, studentId }: { postPayload: { title, content, subject }; studentId: string; }) {
         const student = await Student.find(studentId);
 
-        if (!student) throw new NotFoundException('Student not found');
+        if (!student) throw new NotFoundException(I18nSingleton.getInstance().executeFormatMessage('messages.student_not_found'));
 
         if (!(postPayload.subject)) {
             return await this.createPostWithoutSubject(postPayload, student);
@@ -32,7 +33,7 @@ export default class StudentPostsService {
 
         const subject = await Subject.find(postPayload.subject);
 
-        if (!subject) throw new NotFoundException('Subject not found');
+        if (!subject) throw new NotFoundException(I18nSingleton.getInstance().executeFormatMessage('messages.subject_not_found'));
 
         return await this.createPostWithSubject(postPayload, student, subject);
     }
@@ -53,14 +54,14 @@ export default class StudentPostsService {
     public async updatePost({ postPayload, postId, studentId }: { postPayload: { title, content, subject }; postId: string; studentId: string; }){
         const post = await this.findPostOrFail(postId)
         const student = await Student.find(studentId);
-        if (!student) throw new NotFoundException('Student not found');
+        if (!student) throw new NotFoundException(I18nSingleton.getInstance().executeFormatMessage('messages.student_not_found'));
 
         if (!(postPayload.subject)) {
             return await this.updatePostWithoutSubject(postPayload, post);
         }
 
         const subject = await Subject.find(postPayload.subject);
-        if (!subject) throw new NotFoundException('Subject not found');
+        if (!subject) throw new NotFoundException(I18nSingleton.getInstance().executeFormatMessage('messages.subject_not_found'));
 
         return await this.updatePostWithSubject(postPayload, subject, post);
     }
@@ -86,7 +87,7 @@ export default class StudentPostsService {
 
     private async findPostOrFail(id: string){
         const post = await StudentPost.find(id);
-        if (!post) throw new NotFoundException('Post not found');
+        if (!post) throw new NotFoundException(I18nSingleton.getInstance().executeFormatMessage('messages.post_not_found'));
         return post;
     }
 }

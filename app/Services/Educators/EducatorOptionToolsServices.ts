@@ -1,8 +1,10 @@
 import NotFoundException from "App/Exceptions/NotFoundException";
 import EducatorOptionTool from "App/Models/EducatorOptionTool";
+import I18nSingleton from "App/Services/Singletons/I18nSingleton";
 
 
 export default class EducatorOptionToolsServices {
+
     async getAll(){
         return await EducatorOptionTool.all();
     }
@@ -31,7 +33,7 @@ export default class EducatorOptionToolsServices {
 
     async findToolOrFail(id: number){
         const tool = await EducatorOptionTool.find(id);
-        if(!tool) throw new NotFoundException('Tools not found');
+        if(!tool) throw new NotFoundException(I18nSingleton.getInstance().executeFormatMessage('messages.tool_not_found'));
         return tool
     }
 }

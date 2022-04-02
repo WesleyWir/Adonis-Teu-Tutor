@@ -1,5 +1,6 @@
 import NotFoundException from "App/Exceptions/NotFoundException";
 import Subject from "App/Models/Subject";
+import I18nSingleton from "./Singletons/I18nSingleton";
 
 export default class SubjectsService{
 
@@ -16,7 +17,7 @@ export default class SubjectsService{
         return subject;
     }
 
-    async getEditableSubject(id: string){
+    async getEditableSubject(id: number){
         return await this.findSubjectOrFail(id);
     }
 
@@ -24,14 +25,14 @@ export default class SubjectsService{
         return await subject.merge(updateSubjectPayload).save();
     }
 
-    async deleteSubject(id:string){
+    async deleteSubject(id: number){
         const subject = await this.findSubjectOrFail(id);
         return subject.delete();
     }
 
-    private async findSubjectOrFail(id: string){
+    private async findSubjectOrFail(id: number){
         const subject = await Subject.find(id);
-        if(!subject) throw new NotFoundException('Subject not found');
+        if(!subject) throw new NotFoundException(I18nSingleton.getInstance().executeFormatMessage('messages.subject_not_found'));
         return subject;
     }
 }
