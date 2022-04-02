@@ -1,0 +1,12 @@
+{
+    "educator_not_found": "Educator not found",
+    "student_not_found": "Student not found",
+    "subject_not_found": "Subject not found",
+    "post_not_found": "Post not found",
+    "relation_not_exist": "Relation requested not exist",
+    "address_not_found": "Address not found",
+    "tool_not_found": "Tool not found",
+    "old_password_dont_match": "The old password doesn't match",
+    "invalid_credentials": "Email or password is invalid",
+    "password_reset_request_not_found": "Request not founded. Do the password reset and try again"
+}
