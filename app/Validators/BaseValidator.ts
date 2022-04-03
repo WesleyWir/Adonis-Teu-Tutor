@@ -1,8 +1,8 @@
-export default class BaseValidator{
-    public messages = {
-        minLength: "{{ field }} must be at least {{ options.minLength }} characters long",
-        maxLength: "{{ field }} must be less then {{ options.maxLength }} characters long",
-        required: "{{ field }} is required",
-        unique: "{{ field }} must be unique, and this value is already taken",
+import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+
+export default class BaseValidator {
+    constructor(protected ctx: HttpContextContract) {
     }
+
+    public messages = this.ctx.i18n.validatorMessages('validator.shared')
 }

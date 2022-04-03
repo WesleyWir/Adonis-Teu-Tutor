@@ -4,7 +4,7 @@ import BaseValidator from './BaseValidator';
 
 export default class SessionsStoreValidator extends BaseValidator{
   constructor(protected ctx: HttpContextContract) {
-    super();
+    super(ctx);
   }
 
   public schema = schema.create({

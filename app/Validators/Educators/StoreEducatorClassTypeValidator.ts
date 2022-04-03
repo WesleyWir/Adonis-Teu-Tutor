@@ -5,7 +5,7 @@ import { ClassTypes } from 'Contracts/enums';
 
 export default class StoreEducatorClassTypeValidator extends BaseValidator {
   constructor(protected ctx: HttpContextContract) {
-    super();
+    super(ctx);
   }
 
   public schema = schema.create({

@@ -1,0 +1,8 @@
+{
+    "shared": {
+        "minLength": "{ field } must be at least { minLength } characters long",
+        "maxLength": "{ field } must be less then { maxLength } characters long",
+        "required": "{ field } é obrigatório",
+        "unique": "{ field } deve ser único e já está sendo utilizado"
+    }
+}

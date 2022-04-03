@@ -4,7 +4,7 @@ import BaseValidator from 'App/Validators/BaseValidator';
 
 export default class CreateEducatorValidator extends BaseValidator {
   constructor(protected ctx: HttpContextContract) {
-    super();
+    super(ctx);
   }
 
   public schema = schema.create({
