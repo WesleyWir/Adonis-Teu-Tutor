@@ -66,3 +66,16 @@ Route.group(() => {
   Route.put('/:id', 'Educators/EducatorOnlineController.update')
   Route.delete('/:id', 'Educators/EducatorOnlineController.destroy')
 }).prefix('/educator-online-tools').middleware(['educatorsAuth']);
+
+// Educator Contact Means
+
+Route.group(() => {
+  Route.get('/:educator_id', 'Educators/EducatorsContactMeansController.show')
+}).prefix('/contact-means/educators')
+
+Route.group(() => {
+  Route.post('/', 'Educators/EducatorsContactMeansController.store')
+  Route.patch('/:id', 'Educators/EducatorsContactMeansController.update')
+  Route.put('/:id', 'Educators/EducatorsContactMeansController.update')
+  Route.delete('/:id', 'Educators/EducatorsContactMeansController.destroy')
+}).prefix('/contact-means/educators').middleware(['educatorsAuth']);

@@ -7,6 +7,7 @@ import EducatorAdress from './EducatorAddress';
 import EducatorClassType from './EducatorClassType';
 import EducatorInPerson from './EducatorInPerson';
 import EducatorOnline from './EducatorOnline';
+import EducatorContactMean from './EducatorContactMean';
 
 export default class Educator extends BaseModel {
   public static selfAssignPrimaryKey = true
@@ -74,6 +75,11 @@ export default class Educator extends BaseModel {
     foreignKey: 'educator_id'
   })
   public onlineTools: HasMany<typeof EducatorOnline>
+
+  @hasMany(() => EducatorContactMean, {
+    foreignKey: 'educator_id'
+  })
+  public contactMeans: HasMany<typeof EducatorContactMean>
 
   @beforeCreate()
   public static async createUUID(model: Educator) {
