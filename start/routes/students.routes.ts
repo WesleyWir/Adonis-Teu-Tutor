@@ -1,17 +1,17 @@
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.resource('students', 'StudentsController').except(['create'])
+Route.resource('students', 'Students/StudentsController').except(['create'])
 .middleware({
   update: ['studentsAuth'],
   destroy: ['studentsAuth']
 })
 
 Route.group(() => {
-  Route.post('/forgot', 'StudentsPasswordController.forgotPassword');
-  Route.post('/reset', 'StudentsPasswordController.resetPassword');
+  Route.post('/forgot', 'Students/StudentsPasswordController.forgotPassword');
+  Route.post('/reset', 'Students/StudentsPasswordController.resetPassword');
 }).prefix('/students');
 
 Route.group(() => {
-  Route.post('/students', 'StudentsSessionsController.store');
-  Route.delete('/students', 'StudentsSessionsController.destroy');
+  Route.post('/students', 'Students/StudentsSessionsController.store');
+  Route.delete('/students', 'Students/StudentsSessionsController.destroy');
 }).prefix('/sessions')
