@@ -6,6 +6,7 @@ import ResetEducatorsPasswordToken from './ResetEducatorsPasswordToken';
 import EducatorAdress from './EducatorAddress';
 import EducatorClassType from './EducatorClassType';
 import EducatorInPerson from './EducatorInPerson';
+import EducatorOnline from './EducatorOnline';
 
 export default class Educator extends BaseModel {
   public static selfAssignPrimaryKey = true
@@ -68,6 +69,11 @@ export default class Educator extends BaseModel {
     }
   })
   public addresses: ManyToMany<typeof EducatorAdress>
+
+  @hasMany(() => EducatorOnline, {
+    foreignKey: 'educator_id'
+  })
+  public onlineTools: HasMany<typeof EducatorOnline>
 
   @beforeCreate()
   public static async createUUID(model: Educator) {

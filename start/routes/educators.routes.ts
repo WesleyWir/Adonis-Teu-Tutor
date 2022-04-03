@@ -54,3 +54,15 @@ Route.resource('online-tools', 'Educators/EducatorOptionToolsController').except
 //   update: ['adminAuth'],
 //   destroy: ['adminAuth']
 // })
+
+// Educator Online Tools
+Route.group(() => {
+  Route.get('/:educator_id', 'Educators/EducatorOnlineController.show')
+}).prefix('/educator-online-tools');
+
+Route.group(() => {
+  Route.post('/', 'Educators/EducatorOnlineController.store')
+  Route.patch('/:id', 'Educators/EducatorOnlineController.update')
+  Route.put('/:id', 'Educators/EducatorOnlineController.update')
+  Route.delete('/:id', 'Educators/EducatorOnlineController.destroy')
+}).prefix('/educator-online-tools').middleware(['educatorsAuth']);
