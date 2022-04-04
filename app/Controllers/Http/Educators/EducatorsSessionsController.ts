@@ -17,6 +17,10 @@ export default class EducatorsSessionsController {
         }
     }
 
+    async show({ auth }: HttpContextContract){
+        return auth.user;
+    }
+
     async destroy({ response, auth }: HttpContextContract) {
         auth.use('api_educators').logout();
         return response.ok({});

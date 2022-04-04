@@ -12,6 +12,7 @@ Route.group(() => {
 }).prefix('/students');
 
 Route.group(() => {
+  Route.get('/students/me', 'Students/StudentsSessionsController.show').middleware('studentsAuth');
   Route.post('/students', 'Students/StudentsSessionsController.store');
   Route.delete('/students', 'Students/StudentsSessionsController.destroy');
 }).prefix('/sessions')

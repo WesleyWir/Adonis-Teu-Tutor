@@ -15,6 +15,7 @@ Route.group(() => {
 
 // Sessions
 Route.group(() => {
+  Route.get('/educators/me', 'Educators/EducatorsSessionsController.show').middleware('educatorsAuth');
   Route.post('/educators', 'Educators/EducatorsSessionsController.store');
   Route.delete('/educators', 'Educators/EducatorsSessionsController.destroy');
 }).prefix('/sessions')
