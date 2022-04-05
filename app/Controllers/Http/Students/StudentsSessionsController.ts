@@ -7,17 +7,18 @@ export default class StudentsSessionsController {
         const { email, password } = await request.validate(SessionsStoreValidator);
 
         try {
-            const token = await auth.use('api_students').attempt(email, password, {
+            const authenticated = await auth.use('api_students').attempt(email, password, {
                 expiresIn: '48hours',
             });
-            return response.ok({ student: auth.user, token });
+            const { token } = authenticated;
+            return response.ok(token);
         } catch {
             throw new BadRequestException(i18n.formatMessage('messages.invalid_credentials'));
         }
     }
 
-    public async show({ auth }: HttpContextContract){
-        return auth.user;
+    public async show({ auth }: HttpContextContract) {
+        return { student: auth.user };
     }
 
     public async destroy({ response, auth }: HttpContextContract) {
