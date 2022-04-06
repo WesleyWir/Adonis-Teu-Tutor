@@ -8,6 +8,7 @@ import EducatorClassType from './EducatorClassType';
 import EducatorInPerson from './EducatorInPerson';
 import EducatorOnline from './EducatorOnline';
 import EducatorContactMean from './EducatorContactMean';
+import StudentPost from './StudentPost';
 
 export default class Educator extends BaseModel {
   public static selfAssignPrimaryKey = true
@@ -80,6 +81,19 @@ export default class Educator extends BaseModel {
     foreignKey: 'educator_id'
   })
   public contactMeans: HasMany<typeof EducatorContactMean>
+
+  @manyToMany(() => StudentPost, {
+    pivotTable: 'educator_post_interests',
+    localKey: 'id',
+    pivotForeignKey: 'educator_id',
+    relatedKey: 'id',
+    pivotRelatedForeignKey: 'student_post_id',
+    pivotTimestamps: {
+      createdAt: 'created_at',
+      updatedAt: 'updated_at'
+    }
+  })
+  public postInterest: ManyToMany<typeof StudentPost>
 
   @beforeCreate()
   public static async createUUID(model: Educator) {

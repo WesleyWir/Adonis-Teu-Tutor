@@ -69,7 +69,6 @@ Route.group(() => {
 }).prefix('/educator-online-tools').middleware(['educatorsAuth']);
 
 // Educator Contact Means
-
 Route.group(() => {
   Route.get('/:educator_id', 'Educators/EducatorsContactMeansController.show')
 }).prefix('/contact-means/educators')
@@ -80,3 +79,9 @@ Route.group(() => {
   Route.put('/:id', 'Educators/EducatorsContactMeansController.update')
   Route.delete('/:id', 'Educators/EducatorsContactMeansController.destroy')
 }).prefix('/contact-means/educators').middleware(['educatorsAuth']);
+
+// Educator Post Interest
+Route.group(() => {
+  Route.post('/:id', 'Educators/EducatorPostInterestsController.store')
+  Route.delete('/:id', 'Educators/EducatorPostInterestsController.destroy')
+}).prefix('/post-interest/educators').middleware(['educatorsAuth'])

@@ -9,5 +9,6 @@
     "old_password_dont_match": "A senha antiga não corresponde",
     "invalid_credentials": "Email ou senha é inválida",
     "password_reset_request_not_found": "Pedido não encontrado. Faça o pedido e tente novamente",
-    "contact_mean_not_found": "Meio de contato não encontrado"
+    "contact_mean_not_found": "Meio de contato não encontrado",
+    "already_interest_post": "Já demonstrou interesse a esse post"
 }
