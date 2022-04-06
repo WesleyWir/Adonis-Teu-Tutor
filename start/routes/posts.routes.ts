@@ -12,3 +12,14 @@ Route.group(() => {
   Route.put('/:id/:studentId', 'Students/StudentPostsController.update').middleware('studentsAuth')
   Route.get('/', 'Students/StudentPostsController.index')
 }).prefix('/posts/students')
+
+// Educator Post Interest
+
+Route.group(() => {
+  Route.get('/:id', 'Educators/EducatorPostInterestsController.show')
+}).prefix('/post-interest/educators').middleware(['studentsAuth'])
+
+Route.group(() => {
+  Route.post('/:id', 'Educators/EducatorPostInterestsController.store')
+  Route.delete('/:id', 'Educators/EducatorPostInterestsController.destroy')
+}).prefix('/post-interest/educators').middleware(['educatorsAuth'])

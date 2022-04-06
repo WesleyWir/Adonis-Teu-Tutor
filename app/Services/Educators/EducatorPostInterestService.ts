@@ -19,6 +19,11 @@ export default class EducatorPostInterestService{
         return await educator.related('postInterest').detach([post.id]);
     }
 
+    async getInterestedEducatorsInPost(postId: string){
+        const post = await this.findPostOrFail(postId);
+        return await post.related('educators').query()
+    }
+
     async findPostOrFail(postId: string){
         const post = await StudentPost.find(postId);
         if (!post) throw new NotFoundException(I18nSingleton.getInstance().executeFormatMessage('messages.post_not_found'));

@@ -20,4 +20,9 @@ export default class EducatorPostInterestsController {
         const postId: string = request.param('id')
         return await this._educatorPostInterestService.removeInterestToPost(postId, educator);
     }
+
+    async show({ request }: HttpContextContract){
+        const postId = request.param('id');
+        return await this._educatorPostInterestService.getInterestedEducatorsInPost(postId);
+    }
 }
