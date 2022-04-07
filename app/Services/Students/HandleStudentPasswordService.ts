@@ -17,7 +17,7 @@ export default class HandleStudentPasswordService{
         const token = random.toString('hex');
         await student.related('tokens').updateOrCreate({ studentId: student.id }, {token,});
 
-        const data = {reset_url: `${Env.get('FRONT_URL')}/students/reset/`, token: token};
+        const data = {reset_url: `${Env.get('FRONT_URL')}/students/reset`, token: token};
         let mailSender = new MailSenderService('no-reply@teututor.com', email, 'TeuTutor: Recuperação de senha.', 'emails/forgotpassword');
         mailSender.setData(data);
         return mailSender.execute();
