@@ -10,5 +10,7 @@
     "invalid_credentials": "Email ou senha é inválida",
     "password_reset_request_not_found": "Pedido não encontrado. Faça o pedido e tente novamente",
     "contact_mean_not_found": "Meio de contato não encontrado",
-    "already_interest_post": "Já demonstrou interesse a esse post"
+    "already_interest_post": "Já demonstrou interesse a esse post",
+    "calendar_not_found": "Opção de calendário não encontrado",
+    "calendar_already_exist": "Intervalo de calendário e horário já existente"
 }

@@ -9,5 +9,8 @@
     "old_password_dont_match": "The old password doesn't match",
     "invalid_credentials": "Email or password is invalid",
     "password_reset_request_not_found": "Request not founded. Do the password reset and try again",
-    "contact_mean_not_found": "Contact mean not founded"
+    "contact_mean_not_found": "Contact mean not founded",
+    "already_interest_post": "Already interested to this post",
+    "calendar_not_found": "Calendar option not found",
+    "calendar_already_exist": "Calendar and hour already exist"
 }

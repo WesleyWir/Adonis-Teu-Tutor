@@ -79,3 +79,15 @@ Route.group(() => {
   Route.put('/:id', 'Educators/EducatorsContactMeansController.update')
   Route.delete('/:id', 'Educators/EducatorsContactMeansController.destroy')
 }).prefix('/contact-means/educators').middleware(['educatorsAuth']);
+
+// Educator Calendars
+Route.group(() => {
+  Route.get('/:educatorId', 'Educators/EducatorsCalendarsController.showByEducator')
+}).prefix('/calendars/educators');
+
+Route.group(() => {
+  Route.post('/', 'Educators/EducatorsCalendarsController.store')
+  Route.patch('/:id', 'educators/EducatorsCalendarsController.update')
+  Route.put('/:id', 'educators/EducatorsCalendarsController.update')
+  Route.delete('/:id', 'Educators/EducatorsCalendarsController.destroy')
+}).prefix('/calendars/educators').middleware(['educatorsAuth']);
