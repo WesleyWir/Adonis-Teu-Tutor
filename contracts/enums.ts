@@ -9,3 +9,15 @@ export enum InPersonTypes{
     EDUCATOR_LOCAL = 'educator_local',
     BOTH = 'both',
 }
+
+export enum EducatorPaymentCodes{
+    PIX = 'pix'
+}
+
+export enum PixKeyType{
+    CPF = 'cpf',
+    CNPJ = 'cnpj',
+    EMAIL = 'email',
+    PHONE = 'phone',
+    RANDOM = 'random',
+}

@@ -10,6 +10,7 @@ import EducatorOnline from './EducatorOnline';
 import EducatorContactMean from './EducatorContactMean';
 import StudentPost from './StudentPost';
 import EducatorCalendar from './EducatorCalendar';
+import EducatorPaymentPix from './EducatorPaymentPix';
 
 export default class Educator extends BaseModel {
   public static selfAssignPrimaryKey = true
@@ -54,6 +55,9 @@ export default class Educator extends BaseModel {
 
   @hasOne(() => EducatorInPerson)
   public inPerson: HasOne<typeof EducatorInPerson>
+
+  @hasOne(() => EducatorPaymentPix)
+  public pix: HasOne<typeof EducatorPaymentPix>
 
   @hasMany(() => ResetEducatorsPasswordToken, {
     foreignKey: 'educatorId'
