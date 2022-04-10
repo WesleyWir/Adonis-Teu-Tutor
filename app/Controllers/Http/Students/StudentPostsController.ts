@@ -1,7 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import IGetAllPosts from 'App/Interfaces/Students/IGetAllPosts';
+import Student from 'App/Models/Student';
 import StudentPostsService from 'App/Services/Students/StudentPostsService';
-import StudentsService from 'App/Services/Students/StudentsService';
 import IndexStudentPostValidator from 'App/Validators/Students/IndexStudentPostValidator';
 import StoreStudentPostValidator from 'App/Validators/Students/StoreStudentPostValidator';
 import UpdateStudentPostValidator from 'App/Validators/Students/UpdateStudentPostValidator';
@@ -18,19 +18,22 @@ export default class StudentPostsController {
     return await this.studentPostsService.getAllPosts({ orderBy, order, search, limit, page, subject });
   }
 
+  public async indexStudent({ request }: HttpContextContract){
+    const studentId = request.param('student_id')
+    return await this.studentPostsService.getPostByEducator(studentId);
+  }
+
   public async create({ }: HttpContextContract) { }
 
-  public async store({ request, bouncer }: HttpContextContract) {
+  public async store({ request, auth }: HttpContextContract) {
     const postPayload = await request.validate(StoreStudentPostValidator);
-    const studentId = request.param('studentId');
-    const studentService = new StudentsService();
-    await bouncer.authorize('isTheHandledStudent', await studentService.getById(studentId));
-    return await this.studentPostsService.createPost({ postPayload, studentId });
+    const student: Student = auth.user;
+    return await this.studentPostsService.createPost({ postPayload, student });
   }
 
   public async show({ request }: HttpContextContract) {
     const id = request.param('id');
-    return this.studentPostsService.getPostById(id);
+    return await this.studentPostsService.getPostById(id);
   }
 
   public async edit({ request }: HttpContextContract) { 
@@ -41,10 +44,8 @@ export default class StudentPostsController {
   public async update({ request, bouncer }: HttpContextContract) { 
     const postPayload = await request.validate(UpdateStudentPostValidator);
     const postId = request.param('id');
-    const studentId = request.param('studentId');
-    const studentService = new StudentsService();
-    await bouncer.authorize('isTheHandledStudent', await studentService.getById(studentId));
-    return await this.studentPostsService.updatePost({ postPayload, postId, studentId });
+    const student: Student = await auth.user;
+    return await this.studentPostsService.updatePost({ postPayload, postId, student });
   }
 
   public async destroy({ request }: HttpContextContract) {

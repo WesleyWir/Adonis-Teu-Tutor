@@ -18,15 +18,17 @@ export default class StudentPostsService {
     }
 
     public async getPostById(id: string) {
-        const post = await this.findPostOrFail(id);
+        await this.findPostOrFail(id);
         return await StudentPost.query().where('id', id).andWhere('status', true).preload('student').preload('subject');
     }
 
-    public async createPost({ postPayload, studentId }: { postPayload: { title, content, subject }; studentId: string; }) {
+    public async getPostByEducator(studentId: string){
         const student = await Student.find(studentId);
-
         if (!student) throw new NotFoundException(I18nSingleton.getInstance().executeFormatMessage('messages.student_not_found'));
+        return await student.related('posts').query().preload('subject');
+    }
 
+    public async createPost({ postPayload, student }: { postPayload: { title, content, subject }; student: Student; }) {
         if (!(postPayload.subject)) {
             return await this.createPostWithoutSubject(postPayload, student);
         }
@@ -51,10 +53,8 @@ export default class StudentPostsService {
         return await studentPost.save();
     }
 
-    public async updatePost({ postPayload, postId, studentId }: { postPayload: { title, content, subject }; postId: string; studentId: string; }){
+    public async updatePost({ postPayload, postId, student }: { postPayload: { title, content, subject }; postId: string; student: Student; }){
         const post = await this.findPostOrFail(postId)
-        const student = await Student.find(studentId);
-        if (!student) throw new NotFoundException(I18nSingleton.getInstance().executeFormatMessage('messages.student_not_found'));
 
         if (!(postPayload.subject)) {
             return await this.updatePostWithoutSubject(postPayload, post);

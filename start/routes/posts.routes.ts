@@ -7,10 +7,11 @@ Route.resource('posts/students', 'Students/StudentPostsController').except(['cre
 
 
 Route.group(() => {
-  Route.post('/:studentId', 'Students/StudentPostsController.store').middleware('studentsAuth')
-  Route.patch('/:id/:studentId', 'Students/StudentPostsController.update').middleware('studentsAuth')
-  Route.put('/:id/:studentId', 'Students/StudentPostsController.update').middleware('studentsAuth')
+  Route.post('/', 'Students/StudentPostsController.store').middleware('studentsAuth')
+  Route.patch('/:id', 'Students/StudentPostsController.update').middleware('studentsAuth')
+  Route.put('/:id', 'Students/StudentPostsController.update').middleware('studentsAuth')
   Route.get('/', 'Students/StudentPostsController.index')
+  Route.get('/student/:student_id', 'Students/StudentPostsController.indexStudent')
 }).prefix('/posts/students')
 
 // Educator Post Interest
