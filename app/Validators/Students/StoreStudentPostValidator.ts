@@ -8,6 +8,6 @@ export default class StoreStudentPostValidator extends BaseValidator {
   public schema = schema.create({
     title: schema.string({}, [rules.required()]),
     content: schema.string({}, [rules.required()]),
-    subject: schema.string.optional()
+    subject: schema.number.optional()
   })
 }
