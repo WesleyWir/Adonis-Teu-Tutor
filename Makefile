@@ -51,7 +51,3 @@ up:
 .PHONY: down
 down:
 	docker-compose down
-
-.PHONY: add-host
-add-host:
-	sudo ./.docker/add-hosts $(COMMANDS_ARGS)

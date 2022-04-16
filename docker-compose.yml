@@ -11,6 +11,8 @@ services:
       volumes:
         - ./:/app
       network_mode: "host"
+      environment:
+        HOST: 0.0.0.0
 
     #MySQL Container
   database:

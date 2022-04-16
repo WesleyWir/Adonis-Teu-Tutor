@@ -12,5 +12,6 @@
     "contact_mean_not_found": "Contact mean not founded",
     "already_interest_post": "Already interested to this post",
     "calendar_not_found": "Calendar option not found",
-    "calendar_already_exist": "Calendar and hour already exist"
+    "calendar_already_exist": "Calendar and hour already exist",
+    "user_avatar_not_exist": "User avatar doesn't exist"
 }
