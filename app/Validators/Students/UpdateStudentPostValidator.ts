@@ -8,6 +8,6 @@ export default class UpdateStudentPostValidator extends BaseValidator {
   public schema = schema.create({
     title: schema.string.optional(),
     content: schema.string.optional(),
-    subject: schema.string.optional()
+    subject: schema.number.optional()
   })
 }

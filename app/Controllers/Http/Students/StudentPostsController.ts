@@ -41,7 +41,7 @@ export default class StudentPostsController {
     return this.studentPostsService.getEditPostOptions(id);
   }
 
-  public async update({ request, bouncer }: HttpContextContract) { 
+  public async update({ request, auth, bouncer }: HttpContextContract) { 
     const postPayload = await request.validate(UpdateStudentPostValidator);
     const postId = request.param('id');
     const student: Student = await auth.user;
