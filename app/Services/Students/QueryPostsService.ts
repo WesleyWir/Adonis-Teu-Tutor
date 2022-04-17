@@ -25,6 +25,10 @@ export default class QueryPostsService {
         return this.query.andWhere('subject_id', '=', subjectId);
     }
 
+    public async setStudent(studentId: string) {
+        return this.query.andWhere('student_id', '=', studentId);
+    }
+
     public async execute() {
         return await this.query;
     }

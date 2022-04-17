@@ -5,6 +5,7 @@ import UpdateStudent from 'App/Validators/Students/UpdateStudentValidator';
 import { types } from '@ioc:Adonis/Core/Helpers';
 import Hash from '@ioc:Adonis/Core/Hash'
 import AuthorizationException from 'App/Exceptions/AuthorizationException';
+import Student from 'App/Models/Student';
 
 export default class StudentsController {
   private studentsService: StudentsService;
@@ -34,20 +35,18 @@ export default class StudentsController {
     return await this.studentsService.getEditableStudent(id);
   }
 
-  public async update({ request, bouncer, i18n }: HttpContextContract) {
+  public async update({ request, auth, i18n }: HttpContextContract) {
     const updateStudentPayload = await request.validate(UpdateStudent);
-    const id = request.param('id');
-    const student = await this.studentsService.getById(id);
-    await bouncer.authorize('isTheHandledStudent', student);
+    const student: Student = auth.user;
 
     if (updateStudentPayload.password) {
-      const oldPassword = request.only(["old_password"]);
+      const  { old_password } = request.only(["old_password"]);
 
-      if ((!oldPassword) || !(types.isString(oldPassword))) {
+      if ((!old_password) || !(types.isString(old_password))) {
         throw new AuthorizationException(i18n.formatMessage('messages.old_password_dont_match'));
       }
 
-      const authenticated = await Hash.verify(student.password, oldPassword);
+      const authenticated = await Hash.verify(student.password, old_password);
       if (!authenticated) {
         throw new AuthorizationException(i18n.formatMessage('messages.old_password_dont_match'));
       }

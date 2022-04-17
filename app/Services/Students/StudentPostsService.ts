@@ -22,10 +22,16 @@ export default class StudentPostsService {
         return await StudentPost.query().where('id', id).andWhere('status', true).preload('student').preload('subject');
     }
 
-    public async getPostByEducator(studentId: string){
+    public async getPostByEducator(studentId: string, { orderBy, order, search, limit, page, subject }: IGetAllPosts){
         const student = await Student.find(studentId);
         if (!student) throw new NotFoundException(I18nSingleton.getInstance().executeFormatMessage('messages.student_not_found'));
-        return await student.related('posts').query().preload('subject');
+        let queryPosts = new QueryPostsService();
+        queryPosts.setStudent(student.id);
+        if  (search) await queryPosts.setSearch(search);
+        if  (subject)   await queryPosts.setPostBySubject(subject);
+        if  (orderBy && order) await queryPosts.setOrder(orderBy, order);
+        if  (limit && page) await queryPosts.setPagination(limit, page);
+        return await queryPosts.execute();
     }
 
     public async createPost({ postPayload, student }: { postPayload: { title, content, subject }; student: Student; }) {

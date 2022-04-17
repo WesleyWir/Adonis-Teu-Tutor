@@ -20,7 +20,8 @@ export default class StudentPostsController {
 
   public async indexStudent({ request }: HttpContextContract){
     const studentId = request.param('student_id')
-    return await this.studentPostsService.getPostByEducator(studentId);
+    const { orderBy, order, search, limit, page, subject }: IGetAllPosts = await request.validate(IndexStudentPostValidator);
+    return await this.studentPostsService.getPostByEducator(studentId, { orderBy, order, search, limit, page, subject });
   }
 
   public async create({ }: HttpContextContract) { }
