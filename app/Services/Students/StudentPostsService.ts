@@ -13,7 +13,7 @@ export default class StudentPostsService {
         if  (search) await queryPosts.setSearch(search);
         if  (subject)   await queryPosts.setPostBySubject(subject);
         if  (orderBy && order) await queryPosts.setOrder(orderBy, order);
-        if  (limit && page) await queryPosts.setPagination(limit, page);
+        if  (limit && page) return await queryPosts.setPagination(limit, page);
         return await queryPosts.execute();
     }
 
@@ -30,7 +30,7 @@ export default class StudentPostsService {
         if  (search) await queryPosts.setSearch(search);
         if  (subject)   await queryPosts.setPostBySubject(subject);
         if  (orderBy && order) await queryPosts.setOrder(orderBy, order);
-        if  (limit && page) await queryPosts.setPagination(limit, page);
+        if  (limit && page) return await queryPosts.setPagination(limit, page);
         return await queryPosts.execute();
     }
 
