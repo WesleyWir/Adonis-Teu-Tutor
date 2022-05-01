@@ -19,7 +19,7 @@ export default class StudentPostsService {
 
     public async getPostById(id: string) {
         await this.findPostOrFail(id);
-        return await StudentPost.query().where('id', id).andWhere('status', true).preload('student').preload('subject');
+        return await StudentPost.query().where('id', id).andWhere('status', true).preload('student').preload('subject').first();
     }
 
     public async getPostByEducator(studentId: string, { orderBy, order, search, limit, page, subject }: IGetAllPosts){
