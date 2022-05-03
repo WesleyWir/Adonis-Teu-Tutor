@@ -1,5 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Educator from 'App/Models/Educator';
+import Student from 'App/Models/Student';
 import EducatorPostInterestService from 'App/Services/Educators/EducatorPostInterestService';
 
 export default class EducatorPostInterestsController {
@@ -21,8 +22,10 @@ export default class EducatorPostInterestsController {
         return await this._educatorPostInterestService.removeInterestToPost(postId, educator);
     }
 
-    async show({ request }: HttpContextContract){
+    async show({ request, auth, bouncer }: HttpContextContract){
         const postId = request.param('id');
+        const student: Student = auth.user;
+        await bouncer.authorize('isTheHandledStudent', student);
         return await this._educatorPostInterestService.getInterestedEducatorsInPost(postId);
     }
 }
