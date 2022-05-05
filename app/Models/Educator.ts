@@ -24,9 +24,6 @@ export default class Educator extends BaseModel {
   @column({ columnName: 'average_price' })
   public averagePrice: number
 
-  @column()
-  public cpf: string
-
   @column.date({
     serialize: (value: DateTime) => value ? value.toFormat('yyyy-MM-dd') : value,
   })
