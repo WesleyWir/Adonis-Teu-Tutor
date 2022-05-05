@@ -14,9 +14,6 @@ export default class Student extends BaseModel {
   @column()
   public name: string
 
-  @column()
-  public cpf: string
-
   @column.date({
     serialize: (value: DateTime) => value ? value.toFormat('yyyy-MM-dd') : value,
   })
