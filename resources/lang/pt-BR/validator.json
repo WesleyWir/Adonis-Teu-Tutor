@@ -5,6 +5,7 @@
         "required": "{ field } é obrigatório",
         "unique": "{ field } deve ser único e já está sendo utilizado", 
         "date.format": "Formato de data incorreto",
-        "file.extname": "O arquivo tem que ser uma dessas extensões {{ options.extnames }}"
+        "file.extname": "O arquivo tem que ser uma dessas extensões {{ options.extnames }}",
+        "password.required": "Senha é obrigatório"
     }
 }

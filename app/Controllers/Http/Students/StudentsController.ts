@@ -6,6 +6,7 @@ import { types } from '@ioc:Adonis/Core/Helpers';
 import Hash from '@ioc:Adonis/Core/Hash'
 import AuthorizationException from 'App/Exceptions/AuthorizationException';
 import Student from 'App/Models/Student';
+import PasswordRequestValidator from 'App/Validators/PasswordRequestValidator';
 
 export default class StudentsController {
   private studentsService: StudentsService;
@@ -40,7 +41,7 @@ export default class StudentsController {
     const student: Student = auth.user;
 
     if (updateStudentPayload.password) {
-      const  { old_password } = request.only(["old_password"]);
+      const { old_password } = request.only(["old_password"]);
 
       if ((!old_password) || !(types.isString(old_password))) {
         throw new AuthorizationException(i18n.formatMessage('messages.old_password_dont_match'));
@@ -55,10 +56,16 @@ export default class StudentsController {
     return await this.studentsService.updateStudent(student, updateStudentPayload);
   }
 
-  public async destroy({ request, bouncer }: HttpContextContract) {
+  public async destroy({ request, bouncer, i18n }: HttpContextContract) {
     const id = request.param('id');
+    const { password } = await request.validate(PasswordRequestValidator);
     const student = await this.studentsService.getById(id);
     await bouncer.authorize('isTheHandledStudent', student);
+    console.log(request.input('password'))
+    const authenticated = await Hash.verify(student.password, password);
+    if (!authenticated) {
+      throw new AuthorizationException(i18n.formatMessage('messages.old_password_dont_match'));
+    }
     return await this.studentsService.deleteStudent(id)
   }
 }
