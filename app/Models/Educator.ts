@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon'
 import { v4 as uuid } from 'uuid';
-import { BaseModel, beforeCreate, beforeSave, column, hasMany, HasMany, hasOne, HasOne, ManyToMany, manyToMany } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, beforeCreate, beforeSave, BelongsTo, belongsTo, column, hasMany, HasMany, hasOne, HasOne, ManyToMany, manyToMany } from '@ioc:Adonis/Lucid/Orm'
 import Hash from '@ioc:Adonis/Core/Hash'
 import ResetEducatorsPasswordToken from './ResetEducatorsPasswordToken';
 import EducatorAdress from './EducatorAddress';
@@ -11,6 +11,7 @@ import EducatorContactMean from './EducatorContactMean';
 import StudentPost from './StudentPost';
 import EducatorCalendar from './EducatorCalendar';
 import EducatorPaymentPix from './EducatorPaymentPix';
+import Subject from './Subject';
 
 export default class Educator extends BaseModel {
   public static selfAssignPrimaryKey = true
@@ -37,6 +38,11 @@ export default class Educator extends BaseModel {
 
   @column()
   public avatar: string
+
+  @belongsTo(() => Subject, {
+    foreignKey: 'subject_id',
+  })
+  public subject: BelongsTo<typeof Subject>
 
   @column()
   public status: boolean
