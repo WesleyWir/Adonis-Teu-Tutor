@@ -12,6 +12,7 @@ export default class CreateEducatorValidator extends BaseValidator {
     birthdate: schema.date({format: 'dd/MM/yyyy'}, [rules.required()]),
     email: schema.string({trim: true}, [rules.required(), rules.email(), rules.unique({ table: 'educators', column: 'email'})]),
     password: schema.string({trim: true}, [rules.required(), rules.minLength(8)]),
-    subject: schema.number()
+    subject: schema.number(),
+    average_price: schema.number()
   });
 }

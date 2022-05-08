@@ -39,6 +39,9 @@ export default class Educator extends BaseModel {
   @column()
   public avatar: string
 
+  @column({ columnName: 'subject_id' })
+  public subject_id: number;
+
   @belongsTo(() => Subject, {
     foreignKey: 'subject_id',
   })

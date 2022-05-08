@@ -1,5 +1,6 @@
 import NotFoundException from "App/Exceptions/NotFoundException";
 import Educator from "App/Models/Educator";
+import Subject from "App/Models/Subject";
 import I18nSingleton from "../Singletons/I18nSingleton";
 
 export default class EducatorsService {
@@ -9,7 +10,12 @@ export default class EducatorsService {
     }
 
     public async createEducator(educatorPayload: object){
-        return await Educator.create(educatorPayload);
+        let educator = await Educator.create(educatorPayload);
+        if(educatorPayload.subject){
+            const subject = await Subject.findOrFail(educatorPayload.subject);
+            await educator.related('subject').associate(subject);
+        }
+        return await educator;
     }
 
     public async getById(id: string){
