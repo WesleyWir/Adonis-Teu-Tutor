@@ -21,6 +21,7 @@ Route.group(() => {
 }).prefix('/post-interest/educators').middleware(['studentsAuth'])
 
 Route.group(() => {
+  Route.get('/:id/:educator_id', 'Educators/EducatorPostInterestsController.educatorHasInterest')
   Route.post('/:id', 'Educators/EducatorPostInterestsController.store')
   Route.delete('/:id', 'Educators/EducatorPostInterestsController.destroy')
 }).prefix('/post-interest/educators').middleware(['educatorsAuth'])

@@ -29,4 +29,9 @@ export default class EducatorPostInterestService{
         if (!post) throw new NotFoundException(I18nSingleton.getInstance().executeFormatMessage('messages.post_not_found'));
         return post
     }
+
+    async educatorHasInterest(postId: string, educatorId: string){
+        const post = await this.findPostOrFail(postId);
+        return Boolean(await post.related('educators').query().where('educator_id', educatorId).first());
+    }
 }

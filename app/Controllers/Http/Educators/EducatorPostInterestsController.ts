@@ -31,4 +31,10 @@ export default class EducatorPostInterestsController {
         await bouncer.authorize('isTheHandledStudent', student);
         return await this._educatorPostInterestService.getInterestedEducatorsInPost(postId);
     }
+
+    async educatorHasInterest({ request }: HttpContextContract){
+        const postId = request.param('id');
+        const educatorId = request.param('educator_id');
+        return await this._educatorPostInterestService.educatorHasInterest(postId, educatorId);
+    }
 }
