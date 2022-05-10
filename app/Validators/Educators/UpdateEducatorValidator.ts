@@ -12,5 +12,7 @@ export default class UpdateEducatorValidator extends BaseValidator {
     birthdate: schema.date.optional(),
     avatar: schema.string.optional(),
     password: schema.string.optional(),
+    subject_id: schema.number(),
+    average_price: schema.number()
   })
 }

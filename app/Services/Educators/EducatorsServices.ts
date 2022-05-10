@@ -24,10 +24,15 @@ export default class EducatorsService {
 
     public async getEditableEducator(id: string){
         await this.findEducatorOrFail(id);
-        return await Educator.query().select('id', 'name', 'birthdate', 'avatar').where('id', id).first();    
+        return await Educator.query().select('id', 'name', 'birthdate', 'avatar', 'average_price', 'subject_id').where('id', id).first();    
     }
 
     public async updateEducator(educator: Educator, updateEducatorPayload: object){
+        console.log(updateEducatorPayload)
+        if(updateEducatorPayload.subject_id){
+            const subject = await Subject.findOrFail(updateEducatorPayload.subject_id);
+            await educator.related('subject').associate(subject);
+        }
         return await educator.merge(updateEducatorPayload).save()
     }
 
