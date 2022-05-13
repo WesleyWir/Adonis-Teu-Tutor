@@ -21,3 +21,10 @@ export enum PixKeyType{
     PHONE = 'phone',
     RANDOM = 'random',
 }
+
+export enum ContactMeansCode{
+    FACEBOOK = 'facebook',
+    EMAIL = 'email',
+    WHATSAPP = 'whatsapp',
+    LINKEDIN = 'linkedin'
+}

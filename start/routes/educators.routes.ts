@@ -75,8 +75,8 @@ Route.group(() => {
 
 Route.group(() => {
   Route.post('/', 'Educators/EducatorsContactMeansController.store')
-  Route.patch('/:id', 'Educators/EducatorsContactMeansController.update')
-  Route.put('/:id', 'Educators/EducatorsContactMeansController.update')
+  Route.patch('/:educator_id', 'Educators/EducatorsContactMeansController.update')
+  Route.put('/:educator_id', 'Educators/EducatorsContactMeansController.update')
   Route.delete('/:id', 'Educators/EducatorsContactMeansController.destroy')
 }).prefix('/contact-means/educators').middleware(['educatorsAuth']);
 

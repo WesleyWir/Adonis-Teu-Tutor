@@ -22,10 +22,9 @@ export default class EducatorsContactMeansController {
     }
 
     async update({ request, auth }: HttpContextContract){
-        const id = request.param('id')
         const contactMeanPayload = await request.validate(StoreEducatorContactMeanValidator)
         const educator = auth.user
-        return await this._educatorContactMeansService.storeContactMean(educator, contactMeanPayload, id)
+        return await this._educatorContactMeansService.storeContactMean(educator, contactMeanPayload)
     }
 
     async destroy({ request, bouncer, auth, i18n }: HttpContextContract){

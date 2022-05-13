@@ -1,4 +1,5 @@
 import { BaseModel, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
+import { ContactMeansCode } from 'Contracts/enums';
 import Educator from './Educator'
 
 export default class EducatorContactMean extends BaseModel {
@@ -14,8 +15,8 @@ export default class EducatorContactMean extends BaseModel {
   public educator: BelongsTo<typeof Educator>
 
   @column()
-  public title: string
+  public code: ContactMeansCode
 
   @column()
-  public description: string
+  public value: string
 }
