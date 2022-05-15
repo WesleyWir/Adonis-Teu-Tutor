@@ -23,7 +23,4 @@ export default class EducatorOnline extends BaseModel {
     foreignKey: 'educator_options_tool_id',
   })
   public educatorOptionTool: BelongsTo<typeof EducatorOptionTool>
-
-  @column()
-  public target: string
 }

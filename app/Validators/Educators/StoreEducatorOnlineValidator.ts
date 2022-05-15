@@ -9,6 +9,5 @@ export default class StoreEducatorOnlineValidator extends BaseValidator{
 
   public schema = schema.create({
     option_tool: schema.number([rules.required()]),
-    target: schema.string({}, [rules.required()])
   })
 }
