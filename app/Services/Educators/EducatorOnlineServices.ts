@@ -13,24 +13,23 @@ export default class EducatorOnlineServices{
         if(!(educator)) throw new NotFoundException(I18nSingleton.getInstance().executeFormatMessage('messages.educator_not_found'));
 
         if(!(id)){
-            return await this.store(educator, optionToolFounded, educatorOnlinePayload.target)
+            return await this.store(educator, optionToolFounded)
         }
 
-        return await this.update(educator, id, optionToolFounded, educatorOnlinePayload.target)
+        return await this.update(educator, id, optionToolFounded)
     }
 
-    async store(educatorRelated: Educator, optionToolRelated: EducatorOptionTool, target: string): Promise<EducatorOnline>{
-        const educatorOnline = await EducatorOnline.create({ target });
+    async store(educatorRelated: Educator, optionToolRelated: EducatorOptionTool): Promise<EducatorOnline>{
+        const educatorOnline = new EducatorOnline();
         await educatorOnline.related('educator').associate(educatorRelated)
         await educatorOnline.related('educatorOptionTool').associate(optionToolRelated)
         return educatorOnline;
     }
 
-    async update(educator: Educator, id: number, optionToolRelated: EducatorOptionTool, target: string): Promise<EducatorOnline>{
+    async update(educator: Educator, id: number, optionToolRelated: EducatorOptionTool): Promise<EducatorOnline>{
         const educatorOnline = await EducatorOnline.query().where('id', id).andWhere('educator_id', educator.id).first()
         if(!educatorOnline) throw new NotFoundException(I18nSingleton.getInstance().executeFormatMessage('messages.relation_not_exist'));
         await educatorOnline.related('educatorOptionTool').associate(optionToolRelated)
-        return await educatorOnline.merge({ target }).save()
     }
 
     async getFromEducator(id: string){
@@ -42,6 +41,15 @@ export default class EducatorOnlineServices{
     async delete(id: number){
         const educatorOnline = await this.findEducatorOnlineOrFail(id);
         return await educatorOnline.delete()
+    }
+
+    async deleteAllFromEducator(educator: Educator|undefined){
+        if(!(educator)) throw new NotFoundException(I18nSingleton.getInstance().executeFormatMessage('messages.educator_not_found'));
+        const educatorToolOnlines = await this.getFromEducator(educator.id);
+
+        for (const onlineTool of educatorToolOnlines) {
+            await this.delete(onlineTool.id);
+        }
     }
 
     async findEducatorOnlineOrFail(id: number): Promise<EducatorOnline>{

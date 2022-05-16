@@ -1,4 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import Educator from 'App/Models/Educator';
 import EducatorOnlineServices from 'App/Services/Educators/EducatorOnlineServices';
 import StoreEducatorOnlineValidator from 'App/Validators/Educators/StoreEducatorOnlineValidator';
 
@@ -30,5 +31,10 @@ export default class EducatorOnlineController {
     async destroy({ request }: HttpContextContract){
         const id = request.param('id')
         return await this._educatorOnlineService.delete(id)
+    }
+
+    async destroyAll({ auth }: HttpContextContract){
+        const educator: Educator = auth.user;
+        return await this._educatorOnlineService.deleteAllFromEducator(educator)
     }
 }

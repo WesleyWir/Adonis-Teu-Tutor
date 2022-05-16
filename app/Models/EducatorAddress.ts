@@ -10,7 +10,7 @@ export default class EducatorAddress extends BaseModel {
   public country: string
 
   @column()
-  public region: string
+  public state: string
 
   @column()
   public city: string

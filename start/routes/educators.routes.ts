@@ -65,6 +65,7 @@ Route.group(() => {
   Route.post('/', 'Educators/EducatorOnlineController.store')
   Route.patch('/:id', 'Educators/EducatorOnlineController.update')
   Route.put('/:id', 'Educators/EducatorOnlineController.update')
+  Route.delete('/all/', 'Educators/EducatorOnlineController.destroyAll')
   Route.delete('/:id', 'Educators/EducatorOnlineController.destroy')
 }).prefix('/educator-online-tools').middleware(['educatorsAuth']);
 

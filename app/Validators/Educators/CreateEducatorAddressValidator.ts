@@ -9,7 +9,7 @@ export default class CreateEducatorAddressValidator extends BaseValidator {
 
   public schema = schema.create({
     country: schema.string({}, [rules.required()]),
-    region: schema.string({}, [rules.required()]),
+    state: schema.string({}, [rules.required()]),
     city: schema.string({}, [rules.required()]),
     neighborhood: schema.string({}, [rules.required()]),
   })
