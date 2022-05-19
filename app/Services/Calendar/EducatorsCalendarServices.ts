@@ -11,6 +11,13 @@ export default class EducatorsCalendarServices{
         return await educator.related('educatorCalendars').create(calendarPayload)
     }
 
+    async createMany(calendarManyPayload: Array, educator: Educator){
+        for (const payload of calendarManyPayload) {
+            await this.hasTheHourStored(educator, payload.date, payload.startTime, payload.endTime)
+        }
+        return await educator.related('educatorCalendars').createMany(calendarManyPayload)
+    }
+
     async update(id: number, calendarPayload: object, educator: Educator){
         await this.hasTheHourStored(educator, calendarPayload.date, calendarPayload.startTime, calendarPayload.endTime)
         return await educator.related('educatorCalendars').updateOrCreate({ id: id}, calendarPayload);

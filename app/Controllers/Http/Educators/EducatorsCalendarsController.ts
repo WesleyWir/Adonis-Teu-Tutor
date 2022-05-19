@@ -2,6 +2,7 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Educator from 'App/Models/Educator';
 import EducatorsCalendarServices from 'App/Services/Calendar/EducatorsCalendarServices'
 import StoreEducatorCalendarValidator from 'App/Validators/Educators/StoreEducatorCalendarValidator';
+import StoreManyEducatorCalendarValidator from 'App/Validators/Educators/StoreManyEducatorCalendarValidator';
 
 export default class EducatorsCalendarsController {
     private _educatorCalendarService : EducatorsCalendarServices;
@@ -13,6 +14,11 @@ export default class EducatorsCalendarsController {
     async store({ request, auth }: HttpContextContract){
         const calendarPayload = await request.validate(StoreEducatorCalendarValidator);
         return await this._educatorCalendarService.create(calendarPayload, auth.user)
+    }
+
+    async storeMany({request, auth}: HttpContextContract){
+        const calendarManyPayload = await request.validate(StoreManyEducatorCalendarValidator);
+        return await this._educatorCalendarService.createMany(calendarManyPayload, auth.user)
     }
 
     async update({ request, auth, bouncer }: HttpContextContract){

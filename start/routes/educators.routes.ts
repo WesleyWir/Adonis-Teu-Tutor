@@ -88,6 +88,7 @@ Route.group(() => {
 
 Route.group(() => {
   Route.post('/', 'Educators/EducatorsCalendarsController.store')
+  Route.post('/many/', 'Educators/EducatorsCalendarsController.storeMany')
   Route.patch('/:id', 'educators/EducatorsCalendarsController.update')
   Route.put('/:id', 'educators/EducatorsCalendarsController.update')
   Route.delete('/:id', 'Educators/EducatorsCalendarsController.destroy')
