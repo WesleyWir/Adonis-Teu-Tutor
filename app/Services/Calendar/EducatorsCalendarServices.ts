@@ -7,19 +7,19 @@ import I18nSingleton from "../Singletons/I18nSingleton";
 export default class EducatorsCalendarServices{
 
     async create(calendarPayload: object, educator: Educator){
-        await this.hasTheHourStored(educator, calendarPayload.date, calendarPayload.startTime, calendarPayload.endTime)
+        await this.hasTheHourStored(educator, calendarPayload.date, calendarPayload.start_time, calendarPayload.end_time)
         return await educator.related('educatorCalendars').create(calendarPayload)
     }
 
-    async createMany(calendarManyPayload: Array, educator: Educator){
-        for (const payload of calendarManyPayload) {
-            await this.hasTheHourStored(educator, payload.date, payload.startTime, payload.endTime)
+    async createMany(calendarManyPayload: object, educator: Educator){
+        for (const payload of calendarManyPayload.dates) {
+            await this.hasTheHourStored(educator, payload.date, payload.start_time, payload.end_time)
         }
-        return await educator.related('educatorCalendars').createMany(calendarManyPayload)
+        return await educator.related('educatorCalendars').createMany(calendarManyPayload.dates)
     }
 
     async update(id: number, calendarPayload: object, educator: Educator){
-        await this.hasTheHourStored(educator, calendarPayload.date, calendarPayload.startTime, calendarPayload.endTime)
+        await this.hasTheHourStored(educator, calendarPayload.date, calendarPayload.start_time, calendarPayload.end_time)
         return await educator.related('educatorCalendars').updateOrCreate({ id: id}, calendarPayload);
     }
 
@@ -32,26 +32,32 @@ export default class EducatorsCalendarServices{
         return await deleteCalendar.delete();
     }
 
-    async getByEducator(educatorId: string){
+    async getByEducator(educatorId: string, params: {}){
         const educator: Educator|null = await Educator.find(educatorId);
         if(!educator) throw new NotFoundException(I18nSingleton.getInstance().executeFormatMessage('messages.educator_not_found'));
-        return await educator.related('educatorCalendars').query()
+        let query = educator.related('educatorCalendars').query()
+        if(params.order_by && params.order){
+            query.orderBy(params.order_by, params.order)
+        }
+
+        return await query
     }
 
     /**
      * Validate the hour has stored
      * @param {Educator} educator
      * @param {Date} date
-     * @param {string} startTime 00:00:00
-     * @param {string} endTime 00:00:00
+     * @param {string} start_time 00:00:00
+     * @param {string} end_time 00:00:00
      * @returns {Boolean} output
      */
-    async hasTheHourStored(educator: Educator, date: Date, startTime: string, endTime: string){
+    async hasTheHourStored(educator: Educator, date: Date, start_time: string, end_time: string){
+        console.log(date)
         const alreadyExistTheHours = await educator.related('educatorCalendars')
         .query().select('start_time', 'end_time')
-        .where('date', date.toFormat('yyyy-MM-dd'))
-        .andWhere('start_time', '>=', startTime)
-        .andWhere('end_time', '<=', endTime)
+        .where('date', date.toISODate())
+        .andWhere('start_time', '>=', start_time)
+        .andWhere('end_time', '<=', end_time)
 
         if(alreadyExistTheHours.length){
             throw new BadRequestException(I18nSingleton.getInstance().executeFormatMessage('messages.calendar_already_exist'))

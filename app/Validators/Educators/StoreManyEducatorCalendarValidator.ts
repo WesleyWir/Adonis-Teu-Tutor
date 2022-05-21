@@ -10,9 +10,9 @@ export default class StoreManyEducatorCalendarValidator extends BaseValidator {
   public schema = schema.create({
     dates: schema.array().members(
       schema.object().members({
-        date: schema.date({ format: 'dd/MM/yyyy' }, [rules.required()]),
-        startTime: schema.string({ trim: true }, [rules.required(), rules.regex(/^(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)?([0-5]?\d)$/)]),
-        endTime: schema.string({ trim: true }, [rules.required(), rules.regex(/^(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)?([0-5]?\d)$/)]),
+        date: schema.date({ format: 'sql' }, [rules.required()]),
+        start_time: schema.string({ trim: true }, [rules.required(), rules.regex(/^(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)?([0-5]?\d)$/)]),
+        end_time: schema.string({ trim: true }, [rules.required(), rules.regex(/^(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)?([0-5]?\d)$/)]),
         price: schema.number([rules.required()]),
       })
     )

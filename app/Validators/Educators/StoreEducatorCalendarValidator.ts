@@ -7,7 +7,7 @@ export default class StoreEducatorCalendarValidator extends BaseValidator {
     super(ctx)
   }
   public schema = schema.create({
-    date: schema.date({ format: 'dd/MM/yyyy' }, [rules.required()]),
+    date: schema.date({ format: 'sql' }, [rules.required()]),
     startTime: schema.string({trim: true}, [rules.required(), rules.regex(/^(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)?([0-5]?\d)$/)]),
     endTime: schema.string({trim: true}, [rules.required(), rules.regex(/^(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)?([0-5]?\d)$/)]),
     price: schema.number([rules.required()]),

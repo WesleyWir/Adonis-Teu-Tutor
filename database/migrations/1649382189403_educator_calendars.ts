@@ -6,7 +6,7 @@ export default class EducatorCalendars extends BaseSchema {
   public async up () {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
-      table.string('educator_id').references('id').inTable('educators').notNullable()
+      table.string('educator_id').references('id').inTable('educators').notNullable().onDelete('CASCADE')
       table.date('date').notNullable()
       table.time('start_time').notNullable()
       table.time('end_time').notNullable()

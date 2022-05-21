@@ -37,6 +37,6 @@ export default class EducatorsCalendarsController {
 
     async showByEducator({ request }: HttpContextContract){
         const educatorId = await request.param('educatorId')
-        return await this._educatorCalendarService.getByEducator(educatorId);
+        return await this._educatorCalendarService.getByEducator(educatorId, request.all());
     }
 }
