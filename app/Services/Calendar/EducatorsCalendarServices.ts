@@ -3,6 +3,7 @@ import NotFoundException from "App/Exceptions/NotFoundException";
 import Educator from "App/Models/Educator";
 import EducatorCalendar from "App/Models/EducatorCalendar";
 import I18nSingleton from "../Singletons/I18nSingleton";
+import QueryCalendarService from "./QueryCalendarService";
 
 export default class EducatorsCalendarServices{
 
@@ -35,12 +36,11 @@ export default class EducatorsCalendarServices{
     async getByEducator(educatorId: string, params: {}){
         const educator: Educator|null = await Educator.find(educatorId);
         if(!educator) throw new NotFoundException(I18nSingleton.getInstance().executeFormatMessage('messages.educator_not_found'));
-        let query = educator.related('educatorCalendars').query()
-        if(params.order_by && params.order){
-            query.orderBy(params.order_by, params.order)
-        }
-
-        return await query
+        let queryCalendar = new QueryCalendarService()
+        await queryCalendar.setEducator(educator)
+        if(params.month && params.year) await queryCalendar.setMonthAndYear(params.month, params.year)
+        if(params.order_by && params.order) await queryCalendar.setOrder(params.order_by, params.order)
+        return await queryCalendar.execute()
     }
 
     /**

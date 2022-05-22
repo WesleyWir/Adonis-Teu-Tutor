@@ -22,12 +22,12 @@ export default class EducatorCalendar extends BaseModel {
   @column.date(
     {
       columnName: 'start_time',
-      serialize: (value: string) => value ? value.trim() : value,
+      serialize: (value: DateTime) => typeof value === 'string' ? value : value.toFormat('HH:mm'),
     })
   public startTime: DateTime
 
   @column.date({
-    columnName: 'end_time', serialize: (value: string) => value ? value.trim() : value,
+    columnName: 'end_time', serialize: (value: DateTime) => typeof value === 'string' ? value : value.toFormat('HH:mm'),
   })
   public endTime: DateTime
 
