@@ -44,6 +44,7 @@ export default class EducatorsService {
     private async findEducatorOrFail(id: string){
         const educator = await Educator.find(id);
         if(!educator) throw new NotFoundException(I18nSingleton.getInstance().executeFormatMessage('messages.educator_not_found'));
+        await educator.load('subject')
         return educator;
     }
 }
