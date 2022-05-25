@@ -13,8 +13,8 @@ export default class EducatorsController {
     this.educatorsService = new EducatorsService();
   }
 
-  public async index({}: HttpContextContract) {
-    return await this.educatorsService.getAll();
+  public async index({ request }: HttpContextContract) {
+    return await this.educatorsService.getAll(request.all());
   }
 
   public async create({}: HttpContextContract) {}

@@ -2,11 +2,18 @@ import NotFoundException from "App/Exceptions/NotFoundException";
 import Educator from "App/Models/Educator";
 import Subject from "App/Models/Subject";
 import I18nSingleton from "../Singletons/I18nSingleton";
+import QueryEducatorsServices from "./QueryEducatorsServices";
 
 export default class EducatorsService {
     
-    public async getAll(){
-        return Educator.all();
+    public async getAll(params: {}){
+        let query = new QueryEducatorsServices()
+        if(params.subject) query.setSubject(params.subject)
+        if(params.online == true) await query.setOnline()
+        if(params.city) await query.setCity(params.city)
+        if(params.neigh) await query.setNeigborhood(params.neigh)
+        if(params.order_by && params.order) await query.setOrder(params.order_by, params.order)
+        return await query.execute();
     }
 
     public async createEducator(educatorPayload: object){
