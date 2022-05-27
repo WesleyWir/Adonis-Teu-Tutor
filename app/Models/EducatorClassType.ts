@@ -1,4 +1,3 @@
-import { DateTime } from 'luxon'
 import { BaseModel, belongsTo, BelongsTo, column } from '@ioc:Adonis/Lucid/Orm'
 import { ClassTypes } from 'Contracts/enums'
 import Educator from './Educator'

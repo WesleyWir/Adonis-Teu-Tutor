@@ -12,6 +12,7 @@ import StudentPost from './StudentPost';
 import EducatorCalendar from './EducatorCalendar';
 import EducatorPaymentPix from './EducatorPaymentPix';
 import Subject from './Subject';
+import Class from './Class';
 
 export default class Educator extends BaseModel {
   public static selfAssignPrimaryKey = true
@@ -110,6 +111,11 @@ export default class Educator extends BaseModel {
     }
   })
   public postInterest: ManyToMany<typeof StudentPost>
+
+  @hasMany(() => Class, {
+    foreignKey: 'educator_id'
+  })
+  public classes: HasMany<typeof Class>
 
   @beforeCreate()
   public static async createUUID(model: Educator) {

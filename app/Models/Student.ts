@@ -4,6 +4,7 @@ import { BaseModel, beforeCreate, beforeSave, column, HasMany, hasMany } from '@
 import Hash from '@ioc:Adonis/Core/Hash'
 import ResetStudentsPasswordToken from './ResetStudentsPasswordToken';
 import StudentPost from './StudentPost';
+import Class from './Class';
 
 export default class Student extends BaseModel {
   public static selfAssignPrimaryKey = true
@@ -49,6 +50,11 @@ export default class Student extends BaseModel {
     foreignKey: 'studentId'
   })
   public posts: HasMany<typeof StudentPost>
+
+  @hasMany(() => Class, {
+    foreignKey: 'student_id'
+  })
+  public classes: HasMany<typeof Class>
 
   @beforeCreate()
   public static async createUUID (model: Student) {
