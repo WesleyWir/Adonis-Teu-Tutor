@@ -1,5 +1,6 @@
-import { BaseModel, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, BelongsTo, belongsTo, column, hasOne, HasOne } from '@ioc:Adonis/Lucid/Orm'
 import { DateTime } from 'luxon';
+import ClassCalendar from './ClassCalendar';
 import Educator from './Educator';
 
 export default class EducatorCalendar extends BaseModel {
@@ -36,4 +37,9 @@ export default class EducatorCalendar extends BaseModel {
 
   @column()
   public status: boolean
+
+  @hasOne(() => ClassCalendar, {
+    foreignKey: 'educator_calendar_id'
+  })
+  public classCalendars: HasOne<typeof ClassCalendar>
 }

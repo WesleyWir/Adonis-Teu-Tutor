@@ -28,3 +28,9 @@ export enum ContactMeansCode{
     WHATSAPP = 'whatsapp',
     LINKEDIN = 'linkedin'
 }
+
+export enum ClassCalendarStatus{
+    TO_DO = 'to_do',
+    COMPLETED = 'completed',
+    CANCELLED = 'cancelled'
+}

@@ -1,8 +1,9 @@
 import { DateTime } from 'luxon'
-import { BaseModel, belongsTo, BelongsTo, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, belongsTo, BelongsTo, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import Student from './Student'
 import Educator from './Educator'
 import EducatorContactMean from './EducatorContactMean'
+import ClassCalendar from './ClassCalendar'
 
 export default class Class extends BaseModel {
   @column({ isPrimary: true })
@@ -31,4 +32,9 @@ export default class Class extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  @hasMany(() => ClassCalendar, {
+    foreignKey: 'class_id'
+  })
+  public classCalendars: HasMany<typeof ClassCalendar>
 }
