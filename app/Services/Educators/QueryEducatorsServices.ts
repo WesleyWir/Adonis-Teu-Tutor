@@ -5,7 +5,7 @@ export default class QueryEducatorsServices {
     private query: ModelQueryBuilderContract<typeof Educator, Educator>
 
     constructor() {
-        this.query = Educator.query().where('status', true).preload('addresses').preload('classType')
+        this.query = Educator.query().where('status', true).preload('addresses').preload('classType').preload('subject')
     }
 
     async setSubject(subjectId: number) {
