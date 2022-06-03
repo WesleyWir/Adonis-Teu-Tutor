@@ -23,7 +23,7 @@ export default class EducatorsService {
             const subject = await Subject.findOrFail(educatorPayload.subject);
             await educator.related('subject').associate(subject);
         }
-        return await educator;
+        return educator;
     }
 
     public async getById(id: string) {
@@ -53,6 +53,7 @@ export default class EducatorsService {
         const educator = await Educator.find(id);
         if (!educator) throw new NotFoundException(I18nSingleton.getInstance().executeFormatMessage('messages.educator_not_found'));
         await educator.load('subject')
+        await educator.load('addresses')
         return educator;
     }
 }
