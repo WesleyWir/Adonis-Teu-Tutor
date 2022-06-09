@@ -34,3 +34,11 @@ export enum ClassCalendarStatus{
     COMPLETED = 'completed',
     CANCELLED = 'cancelled'
 }
+
+export enum PossibleEducatorRate{
+    ONE_STAR = 1,
+    TWO_STAR = 2,
+    THREE_STAR = 3,
+    FOUR_STAR = 4,
+    FIVE_STAR = 5
+}

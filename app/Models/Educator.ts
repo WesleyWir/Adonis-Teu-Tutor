@@ -13,6 +13,7 @@ import EducatorCalendar from './EducatorCalendar';
 import EducatorPaymentPix from './EducatorPaymentPix';
 import Subject from './Subject';
 import Class from './Class';
+import EducatorRating from './EducatorRating';
 
 export default class Educator extends BaseModel {
   public static selfAssignPrimaryKey = true
@@ -98,6 +99,11 @@ export default class Educator extends BaseModel {
     foreignKey: 'educator_id'
   })
   public contactMeans: HasMany<typeof EducatorContactMean>
+
+  @hasMany(() => EducatorRating, {
+    foreignKey: 'educator_id'
+  })
+  public ratings: HasMany<typeof EducatorRating>
 
   @manyToMany(() => StudentPost, {
     pivotTable: 'educator_post_interests',
