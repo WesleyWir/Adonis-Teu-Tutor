@@ -14,5 +14,7 @@
     "calendar_not_found": "Opção de calendário não encontrado",
     "calendar_already_exist": "Intervalo de calendário e horário já existente",
     "pix_not_found": "Opção de Pix não encontrado",
-    "user_avatar_not_exist": "Usuário não tem avatar para ser apagado"
+    "user_avatar_not_exist": "Usuário não tem avatar para ser apagado",
+    "educator_student_not_has_class": "Estudante não teve aula com esse Educador",
+    "rating_already_exist": "Avaliação para esse Educador já realizada"
 }

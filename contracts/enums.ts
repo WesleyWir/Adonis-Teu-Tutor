@@ -36,6 +36,7 @@ export enum ClassCalendarStatus{
 }
 
 export enum PossibleEducatorRate{
+    ZERO_STAR = 0,
     ONE_STAR = 1,
     TWO_STAR = 2,
     THREE_STAR = 3,
