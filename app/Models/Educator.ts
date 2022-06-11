@@ -39,6 +39,9 @@ export default class Educator extends BaseModel {
   public password: string
 
   @column()
+  public description: string
+
+  @column()
   public avatar: string
 
   @column({ columnName: 'subject_id' })
