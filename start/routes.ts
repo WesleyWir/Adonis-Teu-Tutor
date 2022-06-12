@@ -25,3 +25,4 @@ import './routes/subjects.routes';
 import './routes/posts.routes';
 import './routes/payments.routes';
 import './routes/editor.routes';
+import './routes/classes.routes';
