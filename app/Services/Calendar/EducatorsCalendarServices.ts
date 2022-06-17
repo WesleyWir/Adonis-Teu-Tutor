@@ -33,12 +33,19 @@ export default class EducatorsCalendarServices{
         return await deleteCalendar.delete();
     }
 
+    async getById(id: number){
+        const calendar = await EducatorCalendar.find(id)
+        if(!(calendar)) throw new NotFoundException(I18nSingleton.getInstance().executeFormatMessage('messages.calendar_not_found'))
+        return calendar
+    }
+
     async getByEducator(educatorId: string, params: {}){
         const educator: Educator|null = await Educator.find(educatorId);
         if(!educator) throw new NotFoundException(I18nSingleton.getInstance().executeFormatMessage('messages.educator_not_found'));
         let queryCalendar = new QueryCalendarService()
         await queryCalendar.setEducator(educator)
         if(params.month && params.year) await queryCalendar.setMonthAndYear(params.month, params.year)
+        if(params.date) await queryCalendar.setDay(params.date)
         if(params.order_by && params.order) await queryCalendar.setOrder(params.order_by, params.order)
         return await queryCalendar.execute()
     }

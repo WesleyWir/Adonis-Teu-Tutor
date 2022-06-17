@@ -23,6 +23,10 @@ export default class QueryCalendarService {
         return this.query.andWhereBetween('date', [dateTime.startOf('month').toISO(), dateTime.endOf('month').toISO()])
     }
 
+    public async setDay(date: Date){
+        return this.query.andWhere('date', '=', date)
+    }
+
     public async execute() {
         return await this.query
     }

@@ -2,10 +2,10 @@ import Route from '@ioc:Adonis/Core/Route'
 
 // CRUD
 Route.resource('educators', 'Educators/EducatorsController').except(['create'])
-.middleware({
-  update: ['educatorsAuth'],
-  destroy: ['educatorsAuth']
-})
+  .middleware({
+    update: ['educatorsAuth'],
+    destroy: ['educatorsAuth']
+  })
 
 // forgot/reset password
 Route.group(() => {
@@ -82,6 +82,11 @@ Route.group(() => {
 }).prefix('/contact-means/educators').middleware(['educatorsAuth']);
 
 // Educator Calendars
+Route.group(() => {
+  Route.get('/:id', 'Educators/EducatorsCalendarsController.show')
+}).prefix('/calendars')
+
+
 Route.group(() => {
   Route.get('/:educatorId', 'Educators/EducatorsCalendarsController.showByEducator')
 }).prefix('/calendars/educators');
