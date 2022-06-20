@@ -1,5 +1,5 @@
 # Teututor
-## _Backend_
+## _Back-end_
 ### 🛠 Tecnologias
 
 As seguintes ferramentas foram usadas na construção do projeto:
