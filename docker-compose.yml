@@ -3,7 +3,7 @@ services:
 
   #Node Container
   node:
-      image: node:lts
+      image: node:14.18.1
       container_name: teu-tutor-node
       tty: true
       user: "node:node"
