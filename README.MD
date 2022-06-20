@@ -47,8 +47,12 @@ FRONT_URL=http://localhost:3000 [front-end url]
 # 1° Opção - Rodar com node instalado localmente
 # Instale as dependências
 $ npm install
+
 # Rodar as migrations | Necessário apenas na primeira instalação.
 $ node ace migration:run
+
+# Execute a aplicação em modo de desenvolvimento
+$ npm run dev
 
 # 2° Opção - Rodar com docker
 # Docker e Docker compose requisitado.
