@@ -10,7 +10,7 @@ export default class EducatorsService {
         let query = new QueryEducatorsServices()
         if (params.search) query.setSearch(params.search)
         if (params.subject) query.setSubject(params.subject)
-        if (params.online == true) await query.setOnline()
+        if (params.online) await query.setOnline()
         if (params.city) await query.setCity(params.city)
         if (params.neigh) await query.setNeigborhood(params.neigh)
         if (params.order_by && params.order) await query.setOrder(params.order_by, params.order)
@@ -56,5 +56,12 @@ export default class EducatorsService {
         await educator.load('subject')
         await educator.load('addresses')
         return educator;
+    }
+
+    public async getRelated(id: string){
+        const educator = await this.findEducatorOrFail(id);
+        let query = new QueryEducatorsServices()
+        await query.setSubject(educator.subject_id)
+        return await query.setPagination(3, 1);
     }
 }

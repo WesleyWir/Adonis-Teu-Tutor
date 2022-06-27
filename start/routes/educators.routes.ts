@@ -7,6 +7,10 @@ Route.resource('educators', 'Educators/EducatorsController').except(['create'])
     destroy: ['educatorsAuth']
   })
 
+Route.group(() => {
+  Route.get('/:educator_id', 'Educators/EducatorsController.relateds');
+}).prefix('/educators-related');
+
 // forgot/reset password
 Route.group(() => {
   Route.post('/forgot', 'Educators/EducatorsPasswordController.forgotPassword');

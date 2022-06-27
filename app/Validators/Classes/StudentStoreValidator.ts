@@ -9,7 +9,7 @@ export default class StudentStoreValidator extends BaseValidator{
   }
   public schema = schema.create({
     educator_id: schema.string({}, [rules.required()]),
-    educator_contact_means_id: schema.number([rules.required()]),
+    educator_contact_means_id: schema.number.optional(),
     note: schema.string.optional(),
     class_calendars: schema.array([rules.required()]).members(
       schema.object().members({

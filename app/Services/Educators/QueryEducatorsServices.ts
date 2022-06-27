@@ -33,7 +33,9 @@ export default class QueryEducatorsServices {
     }
 
     async setOnline() {
-        return this.query.andWhere('type', 'online')
+        return this.query.andWhereHas('classType', (typeQuery) => {
+            typeQuery.andWhere('type', 'online')
+        })
     }
 
     public async setOrder(orderBy: string, order: string) {

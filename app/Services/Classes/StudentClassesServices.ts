@@ -13,11 +13,13 @@ export default class StudentClassesServices {
             note: classPayload.note
         }
         const educator = await Educator.findOrFail(classPayload.educator_id)
-        const educatorContactMean = await EducatorContactMean.findOrFail(classPayload.educator_contact_means_id)
         const createdClass = await Class.create(classPayloadToCreate)
         await createdClass.related('student').associate(student)
         await createdClass.related('educator').associate(educator)
-        await createdClass.related('contact_mean').associate(educatorContactMean)
+        if (classPayload.educator_contact_means_id) {
+            const educatorContactMean = await EducatorContactMean.findOrFail(classPayload.educator_contact_means_id)
+            await createdClass.related('contact_mean').associate(educatorContactMean)
+        }
 
         for (const calendar of classPayload.class_calendars) {
             let educatorCalendar = await EducatorCalendar.findOrFail(calendar.educator_calendar_id)

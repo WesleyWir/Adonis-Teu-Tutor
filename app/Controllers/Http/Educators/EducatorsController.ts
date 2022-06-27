@@ -60,4 +60,10 @@ export default class EducatorsController {
     await bouncer.authorize('isTheHandledEducator', educator);
     return await this.educatorsService.deleteEducator(id);
   }
+
+  public async relateds({ request }: HttpContextContract){
+    const id = request.param('educator_id');
+    const educators = await this.educatorsService.getRelated(id);
+    return educators;
+  }
 }

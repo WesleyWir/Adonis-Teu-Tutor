@@ -3,9 +3,11 @@ import Route from '@ioc:Adonis/Core/Route'
 
 Route.group(() => {
     Route.get('/educators/', 'Classes/EducatorClassesController.showByEducator');
-    Route.put('/educators/:id', 'Classes/EducatorClassesController.update');
-    Route.patch('/educators/:id', 'Classes/EducatorClassesController.update');
-    Route.delete('/educators/:id', 'Classes/EducatorClassesController.destroy');
+    Route.put('/educators/class-calendars/complete/:id', 'Classes/EducatorClassesController.completeClass');
+    Route.patch('/educators/class-calendars/complete/:id', 'Classes/EducatorClassesController.completeClass');
+    Route.put('/educators/class-calendars/to-do/:id', 'Classes/EducatorClassesController.toDoClass');
+    Route.patch('/educators/class-calendars/to-do/:id', 'Classes/EducatorClassesController.toDoClass');
+    Route.delete('/educators/class-calendars/cancel/:id', 'Classes/EducatorClassesController.cancelClass');
 }).prefix('/classes').middleware(['educatorsAuth'])
 
 Route.group(() => {
