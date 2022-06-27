@@ -8,6 +8,7 @@ export default class EducatorsService {
 
     public async getAll(params: {}) {
         let query = new QueryEducatorsServices()
+        if (params.search) query.setSearch(params.search)
         if (params.subject) query.setSubject(params.subject)
         if (params.online == true) await query.setOnline()
         if (params.city) await query.setCity(params.city)

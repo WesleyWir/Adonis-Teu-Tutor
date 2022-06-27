@@ -8,6 +8,10 @@ export default class QueryEducatorsServices {
         this.query = Educator.query().where('status', true).preload('addresses').preload('classType').preload('subject')
     }
 
+    async setSearch(search: string){
+        return this.query.andWhere('name', 'like', `%${search}%`)
+    }
+
     async setSubject(subjectId: number) {
         return this.query.andWhere('subject_id', subjectId)
     }
