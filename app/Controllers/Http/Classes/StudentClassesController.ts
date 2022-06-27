@@ -1,11 +1,13 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import NotFoundException from 'App/Exceptions/NotFoundException';
 import Class from 'App/Models/Class';
+import ClassCalendar from 'App/Models/ClassCalendar';
 import Student from 'App/Models/Student';
 import StudentClassesServices from 'App/Services/Classes/StudentClassesServices';
 import I18nSingleton from 'App/Services/Singletons/I18nSingleton';
 import StudentStoreValidator from 'App/Validators/Classes/StudentStoreValidator';
 import StudentUpdateValidator from 'App/Validators/Classes/StudentUpdateValidator';
+import { ClassCalendarStatus } from 'Contracts/enums';
 
 export default class StudentClassesController {
     private _studentClassesServices: StudentClassesServices
@@ -32,5 +34,19 @@ export default class StudentClassesController {
             .preload('educatorCalendar')).preload('contact_mean').preload('educator').preload('student');
         if (!classe) throw new NotFoundException(I18nSingleton.getInstance().executeFormatMessage('messages.educator_not_found'));
         return classe;
+    }
+
+    async toDoClass({ request }: HttpContextContract){
+        const id = request.param('id');
+        const classCalendars = await ClassCalendar.findOrFail(id)
+        classCalendars.status = ClassCalendarStatus.TO_DO;
+        return await classCalendars.save()
+    }
+
+    async cancelClass({ request }: HttpContextContract){
+        const id = request.param('id');
+        const classCalendars = await ClassCalendar.findOrFail(id)
+        classCalendars.status = ClassCalendarStatus.CANCELLED;
+        return await classCalendars.save()
     }
 }

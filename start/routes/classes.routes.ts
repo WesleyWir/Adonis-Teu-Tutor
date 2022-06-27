@@ -15,5 +15,9 @@ Route.group(() => {
     Route.post('/students/', 'Classes/StudentClassesController.store');
     Route.put('/students/:id', 'Classes/StudentClassesController.update');
     Route.patch('/students/:id', 'Classes/StudentClassesController.update');
-    Route.delete('/students/:id', 'Classes/StudentClassesController.destroy');
+    Route.put('/students/class-calendars/complete/:id', 'Classes/StudentClassesController.completeClass');
+    Route.patch('/students/class-calendars/complete/:id', 'Classes/StudentClassesController.completeClass');
+    Route.put('/students/class-calendars/to-do/:id', 'Classes/StudentClassesController.toDoClass');
+    Route.patch('/students/class-calendars/to-do/:id', 'Classes/StudentClassesController.toDoClass');
+    Route.delete('/students/class-calendars/cancel/:id', 'Classes/StudentClassesController.cancelClass');
 }).prefix('/classes').middleware(['studentsAuth'])
