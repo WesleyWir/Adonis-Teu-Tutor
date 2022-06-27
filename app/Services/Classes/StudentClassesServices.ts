@@ -1,4 +1,3 @@
-import Database from "@ioc:Adonis/Lucid/Database";
 import Class from "App/Models/Class";
 import ClassCalendar from "App/Models/ClassCalendar";
 import Educator from "App/Models/Educator";
@@ -24,6 +23,8 @@ export default class StudentClassesServices {
             await createdClassCalendar.related('class').associate(createdClass)
             await createdClassCalendar.related('educatorCalendar').associate(educatorCalendar)
             await createdClassCalendar.save()
+            educatorCalendar.status = false
+            await educatorCalendar.save()
         }
         // TODO change calendar status
         await createdClass.save()

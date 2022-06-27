@@ -1,7 +1,7 @@
 import { rules, schema } from '@ioc:Adonis/Core/Validator'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import BaseValidator from '../BaseValidator'
-import { ClassCalendarStatus } from 'Contracts/enums'
+import { ClassCalendarStatus, ClassTypes } from 'Contracts/enums'
 
 export default class StudentStoreValidator extends BaseValidator{
   constructor(protected ctx: HttpContextContract) {
@@ -15,6 +15,7 @@ export default class StudentStoreValidator extends BaseValidator{
       schema.object().members({
         educator_calendar_id:  schema.number([rules.required()]),
         status: schema.enum.optional(Object.values(ClassCalendarStatus), []),
+        type: schema.enum.optional(Object.values(ClassTypes), []),
         note: schema.string.optional(),        
       })
     )
