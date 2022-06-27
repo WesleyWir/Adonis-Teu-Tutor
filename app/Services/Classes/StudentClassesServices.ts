@@ -1,11 +1,9 @@
-import NotFoundException from "App/Exceptions/NotFoundException";
 import Class from "App/Models/Class";
 import ClassCalendar from "App/Models/ClassCalendar";
 import Educator from "App/Models/Educator";
 import EducatorCalendar from "App/Models/EducatorCalendar";
 import EducatorContactMean from "App/Models/EducatorContactMean";
 import Student from "App/Models/Student";
-import I18nSingleton from "../Singletons/I18nSingleton";
 
 export default class StudentClassesServices {
     public async createClass(student: Student, classPayload: Object) {
@@ -33,5 +31,15 @@ export default class StudentClassesServices {
         // TODO change calendar status
         await createdClass.save()
         return createdClass;
+    }
+
+    public async updateClass(id: number, classPayload: object){
+        const classe = await Class.findOrFail(id);
+        for (const calendar of classPayload.class_calendars) {
+            let createdClassCalendar = await ClassCalendar.findOrFail(calendar.id)
+            await createdClassCalendar.merge(calendar).save()
+        }
+        delete classPayload.class_calendars;
+        return await classe.merge(classPayload).save();
     }
 }

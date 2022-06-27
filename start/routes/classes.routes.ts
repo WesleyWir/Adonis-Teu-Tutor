@@ -11,8 +11,8 @@ Route.group(() => {
 }).prefix('/classes').middleware(['educatorsAuth'])
 
 Route.group(() => {
+    Route.get('/students/', 'Classes/StudentClassesController.showByStudent');
     Route.post('/students/', 'Classes/StudentClassesController.store');
-    Route.get('/students/:student_id', 'Classes/StudentClassesController.show');
     Route.put('/students/:id', 'Classes/StudentClassesController.update');
     Route.patch('/students/:id', 'Classes/StudentClassesController.update');
     Route.delete('/students/:id', 'Classes/StudentClassesController.destroy');
