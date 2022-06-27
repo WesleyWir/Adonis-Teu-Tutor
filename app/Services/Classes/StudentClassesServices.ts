@@ -1,9 +1,11 @@
+import NotFoundException from "App/Exceptions/NotFoundException";
 import Class from "App/Models/Class";
 import ClassCalendar from "App/Models/ClassCalendar";
 import Educator from "App/Models/Educator";
 import EducatorCalendar from "App/Models/EducatorCalendar";
 import EducatorContactMean from "App/Models/EducatorContactMean";
 import Student from "App/Models/Student";
+import I18nSingleton from "../Singletons/I18nSingleton";
 
 export default class StudentClassesServices {
     public async createClass(student: Student, classPayload: Object) {

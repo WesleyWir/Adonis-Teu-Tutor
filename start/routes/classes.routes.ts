@@ -2,8 +2,7 @@ import Route from '@ioc:Adonis/Core/Route'
 
 
 Route.group(() => {
-    Route.get('/educators/:educator_id', 'Classes/EducatorClassesController.showByEducator');
-    Route.get('/educators/:id', 'Classes/EducatorClassesController.show');
+    Route.get('/educators/', 'Classes/EducatorClassesController.showByEducator');
     Route.put('/educators/:id', 'Classes/EducatorClassesController.update');
     Route.patch('/educators/:id', 'Classes/EducatorClassesController.update');
     Route.delete('/educators/:id', 'Classes/EducatorClassesController.destroy');
@@ -11,7 +10,7 @@ Route.group(() => {
 
 Route.group(() => {
     Route.post('/students/', 'Classes/StudentClassesController.store');
-    Route.get('/students/:id', 'Classes/StudentClassesController.show');
+    Route.get('/students/:student_id', 'Classes/StudentClassesController.show');
     Route.put('/students/:id', 'Classes/StudentClassesController.update');
     Route.patch('/students/:id', 'Classes/StudentClassesController.update');
     Route.delete('/students/:id', 'Classes/StudentClassesController.destroy');
