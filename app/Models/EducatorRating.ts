@@ -13,6 +13,12 @@ export default class EducatorRating extends BaseModel {
   })
   public student: BelongsTo<typeof Student>
 
+  @column({ columnName: 'educator_id' })
+  public educator_id: string;
+
+  @column({ columnName: 'student_id' })
+  public student_id: string;
+
   @belongsTo(() => Educator, {
     foreignKey: 'educator_id',
   })

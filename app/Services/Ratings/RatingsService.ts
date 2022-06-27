@@ -15,9 +15,9 @@ export default class RatingsService {
             throw new NotFoundException(I18nSingleton.getInstance().executeFormatMessage('messages.educator_student_not_has_class'));
         }
 
-        const ratingFinded = await EducatorRating.query().where('student_id', student.id).andWhere('educator_id', educator.id).count('id')
+        const ratingFinded = await EducatorRating.query().where('student_id', student.id).andWhere('educator_id', educator.id).first()
         if(ratingFinded){
-            throw new NotFoundException(I18nSingleton.getInstance().executeFormatMessage('messages.rating_already_exist'));
+            return await ratingFinded.merge(ratingPayload).save();
         }
 
         const rating = await EducatorRating.create(ratingPayload);
@@ -25,7 +25,7 @@ export default class RatingsService {
         await rating.related('student').associate(student)
         return await rating.save()
     }
-
+    
     async updateRate(ratingId: number, ratingPayload: object){
         const rating = await EducatorRating.find(ratingId)
     }

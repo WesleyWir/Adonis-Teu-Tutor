@@ -2,12 +2,13 @@ import Route from '@ioc:Adonis/Core/Route'
 
 
 Route.group(() => {
-    Route.post('/students/', 'RatingsController.store');
-    Route.put('/students/', 'RatingsController.store');
-    Route.patch('/students/', 'RatingsController.store');
-    Route.delete('/students/', 'AvatarsController.destroy');
+    Route.get('/students/has-class/:educator_id', 'Ratings/RatingsController.hasClass')
+    Route.post('/students/:educator_id', 'Ratings/RatingsController.store');
+    Route.put('/students/', 'Ratings/RatingsController.store');
+    Route.patch('/students/', 'Ratings/RatingsController.store');
+    Route.delete('/students/', 'Ratings/AvatarsController.destroy');
 }).prefix('/ratings').middleware(['studentsAuth'])
 
 Route.group(() => {
-    Route.patch('/educators/:educator_id', 'RatingsController.show');
+    Route.get('/educators/:educator_id', 'Ratings/RatingsController.show');
 }).prefix('/ratings')
