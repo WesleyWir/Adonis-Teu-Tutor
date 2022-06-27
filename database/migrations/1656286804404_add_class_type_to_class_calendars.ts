@@ -2,7 +2,7 @@ import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 import { ClassTypes } from 'Contracts/enums';
 
 export default class AddClassTypeToClassCalendars extends BaseSchema {
-  protected tableName = 'educator_calendars'
+  protected tableName = 'class_calendars'
 
   public async up () {
       this.schema.alterTable(this.tableName, (table) => {
